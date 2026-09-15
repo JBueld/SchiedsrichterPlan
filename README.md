@@ -32,9 +32,11 @@ Quelle: https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/regio
    anfragen müssen.
 4. Das Ergebnis landet in `docs/data.json` (offene Spiele + Hallendaten),
    `docs/index.html` zeigt es an – mit Filtern für Zeitraum
-   (Woche/Wochenende/eigener Zeitraum) und einer Radius-Suche (eigener
-   Standort + Umkreis in km, Luftlinie über die geokodierten
-   Hallenkoordinaten).
+   (Woche/Wochenende/eigener Zeitraum), Uhrzeit (von/bis), Altersgruppe
+   (Jugend A/B/C vs. Senioren/Erwachsene), Liga (Landesliga/Regionsklasse/
+   Regionsliga/Regionsoberliga einzeln abwählbar) und einer Radius-Suche
+   (eigener Standort + Umkreis in km, Luftlinie über die geokodierten
+   Hallenkoordinaten). Alle Filter werden lokal im Browser gespeichert.
 5. Ein GitHub-Actions-Workflow (`.github/workflows/scrape.yml`) führt den
    Scraper alle 6 Stunden automatisch aus und committet die aktualisierten
    Daten (inkl. Hallen-Cache).

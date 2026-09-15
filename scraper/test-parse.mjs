@@ -14,7 +14,9 @@ const sampleRows = [
   // Kopfzeile
   ['Tag', 'Datum', 'Zeit', 'Ort', 'Nr.', 'Liga', 'Staffel', 'Heimmannschaft', 'Gastmannschaft', '', '', '', ''],
   // Mo 14.09.2026 - F-Jugend, kein SR nötig, Spiel bereits gelaufen -> NICHT offen
-  ['Mo', '14.09.2026', '16:00', '809108', '1', 'ReK WJF', 'WJF VR-5', 'TV Dinklage II', 'TV Dinklage', '0:16', '', '', ''],
+  // Zeit-Zelle mit Icon-Suffix ("verlegt"-Hinweis) wie auf der echten Seite -
+  // muss auf die reine Uhrzeit gekürzt werden.
+  ['Mo', '14.09.2026', '16:00\n            \n             v', '809108', '1', 'ReK WJF', 'WJF VR-5', 'TV Dinklage II', 'TV Dinklage', '0:16', '', '', ''],
   // gleiche Tageszeile fortgesetzt (Tag/Datum leer) - C-Jugend, kein SR-Eintrag -> offen
   ['', '', '16:15', '809140', '3', 'LL MJC', 'Landesliga MJC', 'FC Schüttorf 09', 'HSG Grönegau-Melle', '', '', '', ''],
   // Erwachsene, SR bereits angesetzt -> NICHT offen
@@ -37,6 +39,7 @@ for (const g of games) console.log(' -', g.datum, g.zeit, g.liga, g.altersklasse
 
 assert.equal(games.length, 8, 'Es sollten 8 Spielzeilen erkannt werden');
 assert.equal(games[0].ort, '809108', 'Der Ort-Code (Hallennummer) muss erfasst werden');
+assert.equal(games[0].zeit, '16:00', 'Icon-Suffix in der Zeit-Zelle muss entfernt werden');
 
 const open = games.filter(isOpen);
 console.log('\nOffene Spiele:', open.length);

@@ -188,7 +188,7 @@
     {
       "tag": "Sa",
       "datum": "31.10.2026",
-      "zeit": "14:00\n            \n             v",
+      "zeit": "14:00",
       "ort": "809107",
       "liga": "LL",
       "altersklasse": "WJB",
@@ -292,7 +292,7 @@
     {
       "tag": "Sa",
       "datum": "31.10.2026",
-      "zeit": "15:00\n            \n             v",
+      "zeit": "15:00",
       "ort": "808144",
       "liga": "LL",
       "altersklasse": "MJA",
@@ -1228,7 +1228,7 @@
     {
       "tag": "So",
       "datum": "01.11.2026",
-      "zeit": "16:30\n            \n             v",
+      "zeit": "16:30",
       "ort": "808146",
       "liga": "ROL",
       "altersklasse": "MJB",
@@ -1371,7 +1371,7 @@
     {
       "tag": "So",
       "datum": "01.11.2026",
-      "zeit": "17:00\n            \n             t",
+      "zeit": "17:00",
       "ort": "809101",
       "liga": "LL",
       "altersklasse": "WJB",
@@ -1384,7 +1384,7 @@
     {
       "tag": "Di",
       "datum": "03.11.2026",
-      "zeit": "17:45\n            \n             v",
+      "zeit": "17:45",
       "ort": "803140",
       "liga": "LL",
       "altersklasse": "WJB",
@@ -1397,7 +1397,7 @@
     {
       "tag": "Fr",
       "datum": "06.11.2026",
-      "zeit": "18:00\n            \n             v",
+      "zeit": "18:00",
       "ort": "802128",
       "liga": "LL",
       "altersklasse": "WJC",
@@ -1735,7 +1735,7 @@
     {
       "tag": "Sa",
       "datum": "07.11.2026",
-      "zeit": "19:00\n            \n             v",
+      "zeit": "19:00",
       "ort": "809105",
       "liga": "LL",
       "altersklasse": "MJA",
@@ -1748,7 +1748,7 @@
     {
       "tag": "Sa",
       "datum": "07.11.2026",
-      "zeit": "19:00\n            \n             v",
+      "zeit": "19:00",
       "ort": "803178",
       "liga": "ROL",
       "altersklasse": "MJB",
@@ -1787,7 +1787,7 @@
     {
       "tag": "Sa",
       "datum": "07.11.2026",
-      "zeit": "20:00\n            \n             v",
+      "zeit": "20:00",
       "ort": "808158",
       "liga": "LL",
       "altersklasse": "M",
@@ -1852,7 +1852,7 @@
     {
       "tag": "So",
       "datum": "08.11.2026",
-      "zeit": "12:45\n            \n             v",
+      "zeit": "12:45",
       "ort": "808125",
       "liga": "LL",
       "altersklasse": "MJB",
@@ -1956,7 +1956,7 @@
     {
       "tag": "So",
       "datum": "08.11.2026",
-      "zeit": "15:15\n            \n             v",
+      "zeit": "15:15",
       "ort": "808146",
       "liga": "ReK",
       "altersklasse": "M",
@@ -2008,7 +2008,7 @@
     {
       "tag": "So",
       "datum": "08.11.2026",
-      "zeit": "16:00\n            \n             v",
+      "zeit": "16:00",
       "ort": "803105",
       "liga": "ROL",
       "altersklasse": "F",
@@ -2112,7 +2112,7 @@
     {
       "tag": "So",
       "datum": "08.11.2026",
-      "zeit": "17:30\n            \n             v",
+      "zeit": "17:30",
       "ort": "803130",
       "liga": "ROL",
       "altersklasse": "F",
@@ -2762,7 +2762,7 @@
     {
       "tag": "Sa",
       "datum": "14.11.2026",
-      "zeit": "17:30\n            \n             v",
+      "zeit": "17:30",
       "ort": "809118",
       "liga": "ROL",
       "altersklasse": "WJA",
@@ -3048,7 +3048,7 @@
     {
       "tag": "So",
       "datum": "15.11.2026",
-      "zeit": "12:30\n            \n             v",
+      "zeit": "12:30",
       "ort": "803117",
       "liga": "ROL",
       "altersklasse": "MJB",
@@ -3139,7 +3139,7 @@
     {
       "tag": "So",
       "datum": "15.11.2026",
-      "zeit": "13:05\n            \n             t",
+      "zeit": "13:05",
       "ort": "809102",
       "liga": "ReK",
       "altersklasse": "F",
@@ -3217,7 +3217,7 @@
     {
       "tag": "So",
       "datum": "15.11.2026",
-      "zeit": "14:00\n            \n             v",
+      "zeit": "14:00",
       "ort": "803102",
       "liga": "LL",
       "altersklasse": "MJA",
@@ -3568,7 +3568,7 @@
     {
       "tag": "So",
       "datum": "15.11.2026",
-      "zeit": "17:00\n            \n             v",
+      "zeit": "17:00",
       "ort": "808128",
       "liga": "LL",
       "altersklasse": "MJA",
@@ -5661,7 +5661,7 @@
     {
       "tag": "Sa",
       "datum": "28.11.2026",
-      "zeit": "16:00\n            \n             t",
+      "zeit": "16:00",
       "ort": "809126",
       "liga": "LL",
       "altersklasse": "F",
@@ -5700,7 +5700,7 @@
     {
       "tag": "Sa",
       "datum": "28.11.2026",
-      "zeit": "16:45\n            \n             v",
+      "zeit": "16:45",
       "ort": "808154",
       "liga": "LL",
       "altersklasse": "MJB",
@@ -5960,7 +5960,7 @@
     {
       "tag": "Sa",
       "datum": "28.11.2026",
-      "zeit": "18:30\n            \n             v",
+      "zeit": "18:30",
       "ort": "808154",
       "liga": "ReL",
       "altersklasse": "MJC",
@@ -6038,7 +6038,7 @@
     {
       "tag": "Sa",
       "datum": "28.11.2026",
-      "zeit": "19:00\n            \n             v",
+      "zeit": "19:00",
       "ort": "809105",
       "liga": "LL",
       "altersklasse": "MJA",
@@ -6753,7 +6753,7 @@
     {
       "tag": "So",
       "datum": "29.11.2026",
-      "zeit": "18:00\n            \n             v",
+      "zeit": "18:00",
       "ort": "803153",
       "liga": "LL",
       "altersklasse": "MJA",
@@ -7078,7 +7078,7 @@
     {
       "tag": "Sa",
       "datum": "05.12.2026",
-      "zeit": "17:00\n            \n             v",
+      "zeit": "17:00",
       "ort": "809116",
       "liga": "ReK",
       "altersklasse": "F",
@@ -7338,7 +7338,7 @@
     {
       "tag": "Sa",
       "datum": "12.12.2026",
-      "zeit": "11:00\n            \n             v",
+      "zeit": "11:00",
       "ort": "803163",
       "liga": "ReL",
       "altersklasse": "WJA",
@@ -7468,7 +7468,7 @@
     {
       "tag": "Sa",
       "datum": "12.12.2026",
-      "zeit": "13:30\n            \n             h",
+      "zeit": "13:30",
       "ort": "803135",
       "liga": "ReL",
       "altersklasse": "WJC",
@@ -7650,7 +7650,7 @@
     {
       "tag": "Sa",
       "datum": "12.12.2026",
-      "zeit": "15:15\n            \n             h",
+      "zeit": "15:15",
       "ort": "803135",
       "liga": "ROL",
       "altersklasse": "WJC",
@@ -8781,7 +8781,7 @@
     {
       "tag": "Sa",
       "datum": "19.12.2026",
-      "zeit": "12:30\n            \n             t",
+      "zeit": "12:30",
       "ort": "803159",
       "liga": "LL",
       "altersklasse": "WJA",
@@ -9990,7 +9990,7 @@
     {
       "tag": "Mi",
       "datum": "06.01.2027",
-      "zeit": "13:00\n            \n             v",
+      "zeit": "13:00",
       "ort": "808132",
       "liga": "LL",
       "altersklasse": "MJB",
@@ -10003,7 +10003,7 @@
     {
       "tag": "Fr",
       "datum": "08.01.2027",
-      "zeit": "20:00\n            \n             v",
+      "zeit": "20:00",
       "ort": "803163",
       "liga": "ReL",
       "altersklasse": "WJA",
@@ -10042,7 +10042,7 @@
     {
       "tag": "Sa",
       "datum": "09.01.2027",
-      "zeit": "13:00\n            \n             v",
+      "zeit": "13:00",
       "ort": "803119",
       "liga": "ROL",
       "altersklasse": "WJC",
@@ -10081,7 +10081,7 @@
     {
       "tag": "Sa",
       "datum": "09.01.2027",
-      "zeit": "15:00\n            \n             t",
+      "zeit": "15:00",
       "ort": "806109",
       "liga": "LL",
       "altersklasse": "M",
@@ -10094,7 +10094,7 @@
     {
       "tag": "Sa",
       "datum": "09.01.2027",
-      "zeit": "15:00\n            \n             t",
+      "zeit": "15:00",
       "ort": "809105",
       "liga": "LL",
       "altersklasse": "WJA",
@@ -10354,7 +10354,7 @@
     {
       "tag": "So",
       "datum": "10.01.2027",
-      "zeit": "17:00\n            \n             t",
+      "zeit": "17:00",
       "ort": "808129",
       "liga": "LL",
       "altersklasse": "M",
@@ -11836,7 +11836,7 @@
     {
       "tag": "Sa",
       "datum": "30.01.2027",
-      "zeit": "15:30\n            \n             v",
+      "zeit": "15:30",
       "ort": "808134",
       "liga": "LL",
       "altersklasse": "F",
@@ -11862,7 +11862,7 @@
     {
       "tag": "Sa",
       "datum": "30.01.2027",
-      "zeit": "19:45\n            \n             t/v",
+      "zeit": "19:45",
       "ort": "803137",
       "liga": "ROL",
       "altersklasse": "M",
@@ -11901,7 +11901,7 @@
     {
       "tag": "Fr",
       "datum": "05.02.2027",
-      "zeit": "18:00\n            \n             v",
+      "zeit": "18:00",
       "ort": "803126",
       "liga": "ReL",
       "altersklasse": "WJA",
@@ -12538,7 +12538,7 @@
     {
       "tag": "Sa",
       "datum": "06.02.2027",
-      "zeit": "18:00\n            \n             h",
+      "zeit": "18:00",
       "ort": "803135",
       "liga": "ReL",
       "altersklasse": "WJC",
@@ -14397,7 +14397,7 @@
     {
       "tag": "So",
       "datum": "14.02.2027",
-      "zeit": "12:00\n            \n             t",
+      "zeit": "12:00",
       "ort": "809138",
       "liga": "ReL",
       "altersklasse": "WJC",
@@ -15008,7 +15008,7 @@
     {
       "tag": "Sa",
       "datum": "20.02.2027",
-      "zeit": "17:00\n            \n             v",
+      "zeit": "17:00",
       "ort": "803119",
       "liga": "ROL",
       "altersklasse": "MJB",
@@ -15021,7 +15021,7 @@
     {
       "tag": "Sa",
       "datum": "20.02.2027",
-      "zeit": "17:30\n            \n             v",
+      "zeit": "17:30",
       "ort": "803130",
       "liga": "ReK",
       "altersklasse": "M",
@@ -15086,7 +15086,7 @@
     {
       "tag": "Sa",
       "datum": "20.02.2027",
-      "zeit": "19:00\n            \n             v",
+      "zeit": "19:00",
       "ort": "808158",
       "liga": "LL",
       "altersklasse": "F",
@@ -15775,7 +15775,7 @@
     {
       "tag": "Sa",
       "datum": "27.02.2027",
-      "zeit": "16:00\n            \n             v",
+      "zeit": "16:00",
       "ort": "809116",
       "liga": "ReK",
       "altersklasse": "F",
@@ -16399,7 +16399,7 @@
     {
       "tag": "So",
       "datum": "28.02.2027",
-      "zeit": "11:00\n            \n             t",
+      "zeit": "11:00",
       "ort": "809140",
       "liga": "LL",
       "altersklasse": "WJA",
@@ -17309,7 +17309,7 @@
     {
       "tag": "Sa",
       "datum": "06.03.2027",
-      "zeit": "16:00\n            \n             t",
+      "zeit": "16:00",
       "ort": "803160",
       "liga": "ReK",
       "altersklasse": "F",
@@ -18479,7 +18479,7 @@
     {
       "tag": "Fr",
       "datum": "12.03.2027",
-      "zeit": "18:00\n            \n             v",
+      "zeit": "18:00",
       "ort": "803126",
       "liga": "ReL",
       "altersklasse": "WJA",
@@ -18492,7 +18492,7 @@
     {
       "tag": "Fr",
       "datum": "12.03.2027",
-      "zeit": "20:30\n            \n             v",
+      "zeit": "20:30",
       "ort": "803126",
       "liga": "ReL",
       "altersklasse": "M",
@@ -18804,7 +18804,7 @@
     {
       "tag": "Sa",
       "datum": "13.03.2027",
-      "zeit": "15:00\n            \n             t",
+      "zeit": "15:00",
       "ort": "809105",
       "liga": "LL",
       "altersklasse": "WJA",
@@ -20117,7 +20117,7 @@
     {
       "tag": "So",
       "datum": "04.04.2027",
-      "zeit": "15:30\n            \n             v",
+      "zeit": "15:30",
       "ort": "803119",
       "liga": "ROL",
       "altersklasse": "MJB",
@@ -20988,7 +20988,7 @@
     {
       "tag": "Sa",
       "datum": "10.04.2027",
-      "zeit": "18:00\n            \n             t",
+      "zeit": "18:00",
       "ort": "802128",
       "liga": "LL",
       "altersklasse": "F",
@@ -24459,7 +24459,7 @@
     {
       "tag": "So",
       "datum": "25.04.2027",
-      "zeit": "13:30\n            \n             v",
+      "zeit": "13:30",
       "ort": "802136",
       "liga": "LL",
       "altersklasse": "MJB",

@@ -197,6 +197,49 @@
   #customRange.visible {
     display: flex;
   }
+  .more-filters {
+    border-top: 1px solid var(--border);
+    padding-top: 10px;
+  }
+  .more-filters summary {
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+    list-style: none;
+  }
+  .more-filters summary::-webkit-details-marker {
+    display: none;
+  }
+  .more-filters summary::before {
+    content: '▸ ';
+  }
+  .more-filters[open] summary::before {
+    content: '▾ ';
+  }
+  .more-filters .row {
+    margin-top: 10px;
+  }
+  .chip-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .chip-toggle {
+    background: var(--chip-bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    width: auto;
+  }
+  .chip-toggle.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
 </style>
 </head>
 <body>
@@ -248,6 +291,34 @@
       </div>
     </div>
 
+    <details class="more-filters" id="moreFilters">
+      <summary>Weitere Filter</summary>
+      <div class="row">
+        <div class="field">
+          <label for="zeitVon">Uhrzeit von</label>
+          <input id="zeitVon" type="time" />
+        </div>
+        <div class="field">
+          <label for="zeitBis">Uhrzeit bis</label>
+          <input id="zeitBis" type="time" />
+        </div>
+        <div class="field">
+          <label for="altersgruppe">Altersgruppe</label>
+          <select id="altersgruppe">
+            <option value="alle">Alle</option>
+            <option value="jugend">Nur Jugend (A/B/C)</option>
+            <option value="senioren">Nur Senioren/Erwachsene</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Liga</label>
+          <div class="chip-group" id="ligaChips"></div>
+        </div>
+      </div>
+    </details>
+
     <div class="panel-footer">
       <span id="filterSummary"></span>
       <button class="link-btn" id="resetBtn" type="button">Filter zurücksetzen</button>
@@ -264,7 +335,28 @@
       sortierung: 'srp_sortierung_v1',
       von: 'srp_von_v1',
       bis: 'srp_bis_v1',
+      zeitVon: 'srp_zeitvon_v1',
+      zeitBis: 'srp_zeitbis_v1',
+      altersgruppe: 'srp_altersgruppe_v1',
+      excludedLigas: 'srp_excludedligas_v1',
     };
+
+    const LIGA_LABELS = { LL: 'Landesliga', ReK: 'Regionsklasse', ReL: 'Regionsliga', ROL: 'Regionsoberliga' };
+    const LIGA_CODES = Object.keys(LIGA_LABELS);
+
+    function canonicalLiga(liga) {
+      return liga === 'Regionsoberliga' ? 'ROL' : liga;
+    }
+
+    function isJugend(altersklasse) {
+      return /^[MW]J[ABC]$/.test(altersklasse || '');
+    }
+
+    function timeToMinutes(hhmm) {
+      const m = String(hhmm || '').match(/^(\d{1,2}):(\d{2})$/);
+      if (!m) return null;
+      return Number(m[1]) * 60 + Number(m[2]);
+    }
 
     function safeGet(key) {
       try { return localStorage.getItem(key); } catch { return null; }
@@ -361,12 +453,34 @@
       customRange: document.getElementById('customRange'),
       von: document.getElementById('von'),
       bis: document.getElementById('bis'),
+      zeitVon: document.getElementById('zeitVon'),
+      zeitBis: document.getElementById('zeitBis'),
+      altersgruppe: document.getElementById('altersgruppe'),
+      ligaChips: document.getElementById('ligaChips'),
       filterSummary: document.getElementById('filterSummary'),
       resetBtn: document.getElementById('resetBtn'),
     };
 
     let data = null;
     let home = null; // { query, lat, lon }
+    let excludedLigas = new Set();
+
+    function renderLigaChips() {
+      els.ligaChips.innerHTML = LIGA_CODES.map((code) => {
+        const active = !excludedLigas.has(code) ? 'active' : '';
+        return `<button type="button" class="chip-toggle ${active}" data-liga="${code}">${escapeHtml(LIGA_LABELS[code])}</button>`;
+      }).join('');
+      for (const btn of els.ligaChips.querySelectorAll('.chip-toggle')) {
+        btn.addEventListener('click', () => {
+          const code = btn.dataset.liga;
+          if (excludedLigas.has(code)) excludedLigas.delete(code);
+          else excludedLigas.add(code);
+          safeSet(STORAGE_KEYS.excludedLigas, [...excludedLigas].join(','));
+          renderLigaChips();
+          render();
+        });
+      }
+    }
 
     function loadSavedFilters() {
       const savedHome = safeGet(STORAGE_KEYS.home);
@@ -385,8 +499,14 @@
       els.sortierung.value = safeGet(STORAGE_KEYS.sortierung) || 'datum';
       els.von.value = safeGet(STORAGE_KEYS.von) || '';
       els.bis.value = safeGet(STORAGE_KEYS.bis) || '';
+      els.zeitVon.value = safeGet(STORAGE_KEYS.zeitVon) || '';
+      els.zeitBis.value = safeGet(STORAGE_KEYS.zeitBis) || '';
+      els.altersgruppe.value = safeGet(STORAGE_KEYS.altersgruppe) || 'alle';
+      const savedExcluded = safeGet(STORAGE_KEYS.excludedLigas) || '';
+      excludedLigas = new Set(savedExcluded ? savedExcluded.split(',').filter(Boolean) : []);
       els.customRange.classList.toggle('visible', els.zeitraum.value === 'custom');
       els.radiusValue.textContent = `${els.radius.value} km`;
+      renderLigaChips();
     }
 
     async function resolveHome() {
@@ -426,13 +546,18 @@
         von: els.von.value,
         bis: els.bis.value,
         radiusKm: Number(els.radius.value),
+        zeitVon: els.zeitVon.value,
+        zeitBis: els.zeitBis.value,
+        altersgruppe: els.altersgruppe.value,
       };
     }
 
     function render() {
       if (!data) return;
-      const { zeitraum, sortierung, von, bis, radiusKm } = currentFilters();
+      const { zeitraum, sortierung, von, bis, radiusKm, zeitVon, zeitBis, altersgruppe } = currentFilters();
       const { from, to } = dateRangeFor(zeitraum, von, bis);
+      const vonMin = timeToMinutes(zeitVon);
+      const bisMin = timeToMinutes(zeitBis);
 
       let games = data.openGames.map((g) => {
         const hall = data.hallen[g.ort] || null;
@@ -443,7 +568,6 @@
         return { ...g, hall, distanceKm };
       });
 
-      let filteredOutByDate = 0;
       if (from || to) {
         games = games.filter((g) => {
           const d = parseGermanDate(g.datum);
@@ -452,6 +576,33 @@
           if (to && d > to) return false;
           return true;
         });
+      }
+
+      let filteredOutByZeit = 0;
+      if (vonMin != null || bisMin != null) {
+        const total = games.length;
+        games = games.filter((g) => {
+          const mins = timeToMinutes(g.zeit);
+          if (mins == null) return true; // unbekannte Uhrzeit lieber zeigen als verstecken
+          if (vonMin != null && mins < vonMin) return false;
+          if (bisMin != null && mins > bisMin) return false;
+          return true;
+        });
+        filteredOutByZeit = total - games.length;
+      }
+
+      let filteredOutByAltersgruppe = 0;
+      if (altersgruppe !== 'alle') {
+        const total = games.length;
+        games = games.filter((g) => (altersgruppe === 'jugend' ? isJugend(g.altersklasse) : !isJugend(g.altersklasse)));
+        filteredOutByAltersgruppe = total - games.length;
+      }
+
+      let filteredOutByLiga = 0;
+      if (excludedLigas.size > 0) {
+        const total = games.length;
+        games = games.filter((g) => !excludedLigas.has(canonicalLiga(g.liga)));
+        filteredOutByLiga = total - games.length;
       }
 
       let filteredOutByRadius = 0;
@@ -475,6 +626,9 @@
       });
 
       const summaryParts = [];
+      if (filteredOutByZeit > 0) summaryParts.push(`${filteredOutByZeit} außerhalb der Uhrzeit ausgeblendet`);
+      if (filteredOutByAltersgruppe > 0) summaryParts.push(`${filteredOutByAltersgruppe} nach Altersgruppe ausgeblendet`);
+      if (filteredOutByLiga > 0) summaryParts.push(`${filteredOutByLiga} nach Liga ausgeblendet`);
       if (filteredOutByRadius > 0) summaryParts.push(`${filteredOutByRadius} außerhalb des Radius ausgeblendet`);
       els.filterSummary.textContent = summaryParts.join(' · ');
 
@@ -553,9 +707,14 @@
       els.von.addEventListener('change', () => { safeSet(STORAGE_KEYS.von, els.von.value); render(); });
       els.bis.addEventListener('change', () => { safeSet(STORAGE_KEYS.bis, els.bis.value); render(); });
 
+      els.zeitVon.addEventListener('change', () => { safeSet(STORAGE_KEYS.zeitVon, els.zeitVon.value); render(); });
+      els.zeitBis.addEventListener('change', () => { safeSet(STORAGE_KEYS.zeitBis, els.zeitBis.value); render(); });
+      els.altersgruppe.addEventListener('change', () => { safeSet(STORAGE_KEYS.altersgruppe, els.altersgruppe.value); render(); });
+
       els.resetBtn.addEventListener('click', () => {
         for (const key of Object.values(STORAGE_KEYS)) safeRemove(key);
         home = null;
+        excludedLigas = new Set();
         els.ort.value = '';
         els.ortStatus.textContent = '';
         loadSavedFilters();

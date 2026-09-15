@@ -181,6 +181,12 @@ function extractRows(cellRows) {
 
     let [tag, datum, zeit, ort, , ligaCell, staffel, heim, gast, ...rest] = trimmed;
 
+    // Die Zeit-Zelle enthält bei manchen Spielen noch ein Icon/Hinweis-Suffix
+    // (z.B. "16:00\n            \n             v" für "verlegt"). Nur die
+    // reine Uhrzeit behalten.
+    const zeitMatch = zeit.match(/\d{1,2}:\d{2}/);
+    zeit = zeitMatch ? zeitMatch[0] : '';
+
     if (tag && tag === datum) {
       // Verschmolzene Tag+Datum-Zelle (colspan=2), z.B. "Termin offen".
       datum = tag;
