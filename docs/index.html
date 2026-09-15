@@ -4,6 +4,15 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Offene Spiele – HR West Niedersachsen</title>
+<meta name="theme-color" content="#c0392b" />
+<meta name="description" content="Offene Schiedsrichter-Ansetzungen im Regionsspielplan HR West Niedersachsen" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-180.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Offene Spiele" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   :root {
     color-scheme: light dark;
@@ -240,11 +249,120 @@
     color: #fff;
     border-color: var(--accent);
   }
+  .chip-removable {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--chip-bg);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 6px 4px 12px;
+    font-size: 0.8rem;
+  }
+  .chip-removable button {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0 4px;
+    width: auto;
+  }
+  .add-row {
+    display: flex;
+    gap: 6px;
+  }
+  .add-row input { flex: 1; }
+  .add-row button {
+    flex: 0 0 auto;
+    width: auto;
+    background: var(--chip-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 12px;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  .route-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .view-toggle {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .view-btn {
+    flex: 1;
+    width: auto;
+    background: var(--chip-bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .view-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  #map {
+    height: 70vh;
+    min-height: 320px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .leaflet-popup-content { font-size: 0.85rem; }
+  .install-banner {
+    background: var(--panel-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: 0.82rem;
+    display: none;
+  }
+  .install-banner.visible { display: block; }
+  .install-banner .install-close {
+    float: right;
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    width: auto;
+    font-size: 1rem;
+  }
+  .install-banner ol {
+    margin: 8px 0 0;
+    padding-left: 18px;
+  }
+  .install-banner button.install-action {
+    margin-top: 8px;
+    width: auto;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
 </style>
 </head>
 <body>
   <h1>Offene Spiele – HR West Niedersachsen</h1>
   <div class="meta" id="meta">Lade Daten…</div>
+
+  <div class="install-banner" id="installBanner">
+    <button class="install-close" id="installCloseBtn" type="button" title="Schließen">×</button>
+    <div id="installBannerContent"></div>
+  </div>
 
   <div class="panel">
     <div class="row">
@@ -317,6 +435,16 @@
           <div class="chip-group" id="ligaChips"></div>
         </div>
       </div>
+      <div class="row">
+        <div class="field">
+          <label for="vereinInput">Vereine ausblenden</label>
+          <div class="add-row">
+            <input id="vereinInput" type="text" placeholder="Vereinsname eingeben…" autocomplete="off" />
+            <button type="button" id="vereinAddBtn">+ Hinzufügen</button>
+          </div>
+          <div class="chip-group" id="vereinChips"></div>
+        </div>
+      </div>
     </details>
 
     <div class="panel-footer">
@@ -325,8 +453,18 @@
     </div>
   </div>
 
+  <div class="view-toggle">
+    <button type="button" class="view-btn active" id="viewListBtn">📋 Liste</button>
+    <button type="button" class="view-btn" id="viewMapBtn">🗺️ Karte</button>
+  </div>
+
+  <div id="mapView" style="display:none;">
+    <div id="map"></div>
+  </div>
+
   <div id="content"></div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     const STORAGE_KEYS = {
       home: 'srp_home_v1',
@@ -339,6 +477,9 @@
       zeitBis: 'srp_zeitbis_v1',
       altersgruppe: 'srp_altersgruppe_v1',
       excludedLigas: 'srp_excludedligas_v1',
+      excludedClubs: 'srp_excludedclubs_v1',
+      view: 'srp_view_v1',
+      installDismissed: 'srp_install_dismissed_v1',
     };
 
     const LIGA_LABELS = { LL: 'Landesliga', ReK: 'Regionsklasse', ReL: 'Regionsliga', ROL: 'Regionsoberliga' };
@@ -356,6 +497,16 @@
       const m = String(hhmm || '').match(/^(\d{1,2}):(\d{2})$/);
       if (!m) return null;
       return Number(m[1]) * 60 + Number(m[2]);
+    }
+
+    function mapsLink(hall) {
+      if (hall && hall.lat != null && hall.lon != null) {
+        return `https://www.google.com/maps/dir/?api=1&destination=${hall.lat},${hall.lon}`;
+      }
+      if (hall && hall.address) {
+        return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(hall.address)}`;
+      }
+      return null;
     }
 
     function safeGet(key) {
@@ -457,13 +608,27 @@
       zeitBis: document.getElementById('zeitBis'),
       altersgruppe: document.getElementById('altersgruppe'),
       ligaChips: document.getElementById('ligaChips'),
+      vereinInput: document.getElementById('vereinInput'),
+      vereinAddBtn: document.getElementById('vereinAddBtn'),
+      vereinChips: document.getElementById('vereinChips'),
       filterSummary: document.getElementById('filterSummary'),
       resetBtn: document.getElementById('resetBtn'),
+      viewListBtn: document.getElementById('viewListBtn'),
+      viewMapBtn: document.getElementById('viewMapBtn'),
+      mapView: document.getElementById('mapView'),
+      installBanner: document.getElementById('installBanner'),
+      installBannerContent: document.getElementById('installBannerContent'),
+      installCloseBtn: document.getElementById('installCloseBtn'),
     };
 
     let data = null;
     let home = null; // { query, lat, lon }
     let excludedLigas = new Set();
+    let excludedClubs = [];
+    let currentView = 'liste';
+    let leafletMap = null;
+    let markersLayer = null;
+    let deferredInstallPrompt = null;
 
     function renderLigaChips() {
       els.ligaChips.innerHTML = LIGA_CODES.map((code) => {
@@ -478,6 +643,152 @@
           safeSet(STORAGE_KEYS.excludedLigas, [...excludedLigas].join(','));
           renderLigaChips();
           render();
+        });
+      }
+    }
+
+    function renderVereinChips() {
+      els.vereinChips.innerHTML = excludedClubs
+        .map(
+          (name, i) =>
+            `<span class="chip-removable">${escapeHtml(name)}<button type="button" data-idx="${i}" title="Entfernen">×</button></span>`
+        )
+        .join('');
+      for (const btn of els.vereinChips.querySelectorAll('button')) {
+        btn.addEventListener('click', () => {
+          excludedClubs.splice(Number(btn.dataset.idx), 1);
+          safeSet(STORAGE_KEYS.excludedClubs, JSON.stringify(excludedClubs));
+          renderVereinChips();
+          render();
+        });
+      }
+    }
+
+    function addExcludedClub() {
+      const name = els.vereinInput.value.trim();
+      if (!name || excludedClubs.some((c) => c.toLowerCase() === name.toLowerCase())) {
+        els.vereinInput.value = '';
+        return;
+      }
+      excludedClubs.push(name);
+      safeSet(STORAGE_KEYS.excludedClubs, JSON.stringify(excludedClubs));
+      els.vereinInput.value = '';
+      renderVereinChips();
+      render();
+    }
+
+    function ensureMap() {
+      if (leafletMap) return leafletMap;
+      leafletMap = L.map('map').setView([52.9, 8.0], 8); // grobe Mitte des HVNB-Gebiets
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>-Mitwirkende',
+      }).addTo(leafletMap);
+      markersLayer = L.layerGroup().addTo(leafletMap);
+      return leafletMap;
+    }
+
+    function updateMapMarkers(games) {
+      const map = ensureMap();
+      markersLayer.clearLayers();
+
+      const byHall = new Map();
+      for (const g of games) {
+        if (!g.hall || g.hall.lat == null || g.hall.lon == null) continue;
+        if (!byHall.has(g.ort)) byHall.set(g.ort, { hall: g.hall, games: [] });
+        byHall.get(g.ort).games.push(g);
+      }
+
+      const bounds = [];
+      for (const { hall, games: hallGames } of byHall.values()) {
+        const link = mapsLink(hall);
+        const shown = hallGames.slice(0, 8);
+        const gamesHtml = shown
+          .map(
+            (g) =>
+              `<div style="margin-bottom:4px;"><b>${escapeHtml(g.tag)} ${escapeHtml(g.datum)} ${escapeHtml(g.zeit)}</b><br>` +
+              `${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)}<br>${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>`
+          )
+          .join('');
+        const more = hallGames.length > shown.length ? `<div>… und ${hallGames.length - shown.length} weitere</div>` : '';
+        const popup =
+          `<b>${escapeHtml(hall.name || '')}</b><br>${escapeHtml(hall.address || '')}` +
+          (link ? ` · <a href="${link}" target="_blank" rel="noopener">Route</a>` : '') +
+          `<hr>${gamesHtml}${more}`;
+        L.marker([hall.lat, hall.lon]).bindPopup(popup).addTo(markersLayer);
+        bounds.push([hall.lat, hall.lon]);
+      }
+
+      if (home) {
+        L.circleMarker([home.lat, home.lon], {
+          radius: 8,
+          color: '#2e8b57',
+          fillColor: '#2e8b57',
+          fillOpacity: 0.9,
+        })
+          .bindPopup('Mein Standort')
+          .addTo(markersLayer);
+        bounds.push([home.lat, home.lon]);
+      }
+
+      if (bounds.length) {
+        map.fitBounds(bounds, { padding: [30, 30], maxZoom: 12 });
+      }
+      setTimeout(() => map.invalidateSize(), 50);
+    }
+
+    function setView(view) {
+      currentView = view;
+      safeSet(STORAGE_KEYS.view, view);
+      els.viewListBtn.classList.toggle('active', view === 'liste');
+      els.viewMapBtn.classList.toggle('active', view === 'karte');
+      els.content.style.display = view === 'liste' ? '' : 'none';
+      els.mapView.style.display = view === 'karte' ? '' : 'none';
+      render();
+    }
+
+    function iosStandalone() {
+      return window.navigator.standalone === true;
+    }
+
+    function isStandaloneDisplay() {
+      return window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+    }
+
+    function renderInstallBanner() {
+      if (safeGet(STORAGE_KEYS.installDismissed) === '1') return;
+      if (iosStandalone() || isStandaloneDisplay()) return; // schon installiert
+
+      const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      let html = '';
+      if (isIos) {
+        html =
+          '<strong>📱 Als App installieren (iOS)</strong>' +
+          '<ol>' +
+          '<li>Diese Seite in <b>Safari</b> öffnen (nicht Chrome/Firefox)</li>' +
+          '<li>Auf das <b>Teilen</b>-Symbol tippen (Quadrat mit Pfeil nach oben)</li>' +
+          '<li>Nach unten scrollen und <b>„Zum Home-Bildschirm"</b> auswählen</li>' +
+          '<li>Namen bestätigen und oben rechts auf <b>„Hinzufügen"</b> tippen</li>' +
+          '</ol>';
+      } else if (deferredInstallPrompt) {
+        html =
+          '<strong>📱 Als App installieren</strong>' +
+          '<div>Direkt installieren, dann öffnet sich die Seite wie eine eigene App.</div>' +
+          '<button class="install-action" id="installActionBtn" type="button">Jetzt installieren</button>';
+      } else {
+        return; // Android/Desktop ohne Install-Prompt (z.B. schon abgelehnt) - kein Banner nötig
+      }
+
+      els.installBannerContent.innerHTML = html;
+      els.installBanner.classList.add('visible');
+      const actionBtn = document.getElementById('installActionBtn');
+      if (actionBtn) {
+        actionBtn.addEventListener('click', async () => {
+          if (!deferredInstallPrompt) return;
+          deferredInstallPrompt.prompt();
+          await deferredInstallPrompt.userChoice;
+          deferredInstallPrompt = null;
+          els.installBanner.classList.remove('visible');
         });
       }
     }
@@ -504,9 +815,14 @@
       els.altersgruppe.value = safeGet(STORAGE_KEYS.altersgruppe) || 'alle';
       const savedExcluded = safeGet(STORAGE_KEYS.excludedLigas) || '';
       excludedLigas = new Set(savedExcluded ? savedExcluded.split(',').filter(Boolean) : []);
+      try {
+        excludedClubs = JSON.parse(safeGet(STORAGE_KEYS.excludedClubs) || '[]');
+      } catch { excludedClubs = []; }
       els.customRange.classList.toggle('visible', els.zeitraum.value === 'custom');
       els.radiusValue.textContent = `${els.radius.value} km`;
       renderLigaChips();
+      renderVereinChips();
+      setView(safeGet(STORAGE_KEYS.view) || 'liste');
     }
 
     async function resolveHome() {
@@ -605,6 +921,18 @@
         filteredOutByLiga = total - games.length;
       }
 
+      let filteredOutByVerein = 0;
+      if (excludedClubs.length > 0) {
+        const total = games.length;
+        const needles = excludedClubs.map((c) => c.toLowerCase());
+        games = games.filter((g) => {
+          const heim = (g.heim || '').toLowerCase();
+          const gast = (g.gast || '').toLowerCase();
+          return !needles.some((n) => heim.includes(n) || gast.includes(n));
+        });
+        filteredOutByVerein = total - games.length;
+      }
+
       let filteredOutByRadius = 0;
       if (home) {
         const total = games.length;
@@ -629,12 +957,18 @@
       if (filteredOutByZeit > 0) summaryParts.push(`${filteredOutByZeit} außerhalb der Uhrzeit ausgeblendet`);
       if (filteredOutByAltersgruppe > 0) summaryParts.push(`${filteredOutByAltersgruppe} nach Altersgruppe ausgeblendet`);
       if (filteredOutByLiga > 0) summaryParts.push(`${filteredOutByLiga} nach Liga ausgeblendet`);
+      if (filteredOutByVerein > 0) summaryParts.push(`${filteredOutByVerein} durch Vereins-Ausschluss ausgeblendet`);
       if (filteredOutByRadius > 0) summaryParts.push(`${filteredOutByRadius} außerhalb des Radius ausgeblendet`);
       els.filterSummary.textContent = summaryParts.join(' · ');
 
       els.meta.textContent =
         `Stand: ${new Date(data.generatedAt).toLocaleString('de-DE')} · ${games.length} von ${data.openGames.length} offenen Spielen angezeigt · ` +
         `${data.weeksScanned} Wochen gescannt (${data.totalGamesSeen} Spiele insgesamt gesehen)`;
+
+      if (currentView === 'karte') {
+        updateMapMarkers(games);
+        return;
+      }
 
       if (!games.length) {
         els.content.innerHTML = '<div class="empty">Keine Spiele für die aktuelle Filterauswahl gefunden.</div>';
@@ -652,9 +986,11 @@
       for (const [day, dayGames] of groups) {
         html += `<div class="day-group"><div class="day-heading">${escapeHtml(day)}</div>`;
         for (const g of dayGames) {
+          const link = mapsLink(g.hall);
           const hallLabel = g.hall
             ? `${escapeHtml(g.hall.name || '')}${g.hall.address ? ' · ' + escapeHtml(g.hall.address) : ''}`
             : (g.ort ? `Halle ${escapeHtml(g.ort)}` : '');
+          const routeHtml = link ? ` · <a class="route-link" href="${link}" target="_blank" rel="noopener">Route öffnen</a>` : '';
           const distanceHtml =
             g.distanceKm != null
               ? `<div class="game-distance"><span class="km">${g.distanceKm.toFixed(0)} km</span>Luftlinie</div>`
@@ -667,7 +1003,7 @@
                 <div class="game-time">${escapeHtml(g.zeit || '')}</div>
                 <div class="game-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${escapeHtml(g.staffel)}</div>
                 <div class="game-teams">${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
-                ${hallLabel ? `<div class="game-hall">${hallLabel}</div>` : ''}
+                ${hallLabel ? `<div class="game-hall">${hallLabel}${routeHtml}</div>` : ''}
               </div>
               ${distanceHtml}
             </div>`;
@@ -711,10 +1047,24 @@
       els.zeitBis.addEventListener('change', () => { safeSet(STORAGE_KEYS.zeitBis, els.zeitBis.value); render(); });
       els.altersgruppe.addEventListener('change', () => { safeSet(STORAGE_KEYS.altersgruppe, els.altersgruppe.value); render(); });
 
+      els.vereinAddBtn.addEventListener('click', addExcludedClub);
+      els.vereinInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); addExcludedClub(); }
+      });
+
+      els.viewListBtn.addEventListener('click', () => setView('liste'));
+      els.viewMapBtn.addEventListener('click', () => setView('karte'));
+
+      els.installCloseBtn.addEventListener('click', () => {
+        els.installBanner.classList.remove('visible');
+        safeSet(STORAGE_KEYS.installDismissed, '1');
+      });
+
       els.resetBtn.addEventListener('click', () => {
         for (const key of Object.values(STORAGE_KEYS)) safeRemove(key);
         home = null;
         excludedLigas = new Set();
+        excludedClubs = [];
         els.ort.value = '';
         els.ortStatus.textContent = '';
         loadSavedFilters();
@@ -737,7 +1087,20 @@
       }
     }
 
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      renderInstallBanner();
+    });
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
+
     load();
+    renderInstallBanner();
   </script>
 </body>
 </html>

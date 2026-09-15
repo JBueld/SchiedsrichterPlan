@@ -34,10 +34,20 @@ Quelle: https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/regio
    `docs/index.html` zeigt es an – mit Filtern für Zeitraum
    (Woche/Wochenende/eigener Zeitraum), Uhrzeit (von/bis), Altersgruppe
    (Jugend A/B/C vs. Senioren/Erwachsene), Liga (Landesliga/Regionsklasse/
-   Regionsliga/Regionsoberliga einzeln abwählbar) und einer Radius-Suche
-   (eigener Standort + Umkreis in km, Luftlinie über die geokodierten
-   Hallenkoordinaten). Alle Filter werden lokal im Browser gespeichert.
-5. Ein GitHub-Actions-Workflow (`.github/workflows/scrape.yml`) führt den
+   Regionsliga/Regionsoberliga einzeln abwählbar), ausblendbaren Vereinen
+   (z.B. wegen Befangenheit) und einer Radius-Suche (eigener Standort +
+   Umkreis in km, Luftlinie über die geokodierten Hallenkoordinaten). Alle
+   Filter werden lokal im Browser gespeichert.
+5. Neben der Listenansicht gibt es eine **Kartenansicht** (Leaflet +
+   OpenStreetMap) mit einem Marker pro Halle; jeder Marker zeigt die dort
+   noch offenen Spiele. Jedes Spiel (Liste wie Karte) hat außerdem einen
+   direkten **"Route öffnen"-Link** zu Google Maps.
+6. Die Seite ist als **PWA installierbar** (`docs/manifest.json` +
+   `docs/sw.js`, App-Icons in `docs/icons/`) – auf Android/Desktop per
+   nativem Install-Prompt, auf iOS über Safari → Teilen → "Zum
+   Home-Bildschirm" (die Seite zeigt dafür beim ersten Besuch eine
+   Anleitung an, falls noch nicht installiert).
+7. Ein GitHub-Actions-Workflow (`.github/workflows/scrape.yml`) führt den
    Scraper alle 6 Stunden automatisch aus und committet die aktualisierten
    Daten (inkl. Hallen-Cache).
 
