@@ -65,8 +65,36 @@
     border-radius: 12px;
     padding: 12px 14px;
     margin-bottom: 16px;
+  }
+  .panel-summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-summary::-webkit-details-marker {
+    display: none;
+  }
+  .panel-summary::before {
+    content: '▸';
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .panel[open] .panel-summary::before {
+    content: '▾';
+  }
+  .panel-summary-hint {
+    font-weight: 400;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .panel-body {
     display: grid;
     gap: 10px;
+    margin-top: 12px;
   }
   .field {
     display: flex;
@@ -415,7 +443,9 @@
     <div id="installBannerContent"></div>
   </div>
 
-  <div class="panel">
+  <details class="panel" id="filterPanel" open>
+    <summary class="panel-summary">🔍 Filter <span class="panel-summary-hint" id="panelSummaryHint"></span></summary>
+    <div class="panel-body">
     <div class="row">
       <div class="field">
         <label for="ort">Mein Standort</label>
@@ -502,7 +532,8 @@
       <span id="filterSummary"></span>
       <button class="link-btn" id="resetBtn" type="button">Filter zurücksetzen</button>
     </div>
-  </div>
+    </div>
+  </details>
 
   <div class="view-toggle">
     <button type="button" class="view-btn active" id="viewListBtn">📋 Liste</button>
@@ -531,6 +562,7 @@
       excludedClubs: 'srp_excludedclubs_v1',
       view: 'srp_view_v1',
       installDismissed: 'srp_install_dismissed_v1',
+      panelOpen: 'srp_panel_open_v1',
     };
 
     const LIGA_LABELS = { LL: 'Landesliga', ReK: 'Regionsklasse', ReL: 'Regionsliga', ROL: 'Regionsoberliga' };
@@ -690,6 +722,8 @@
       installBanner: document.getElementById('installBanner'),
       installBannerContent: document.getElementById('installBannerContent'),
       installCloseBtn: document.getElementById('installCloseBtn'),
+      filterPanel: document.getElementById('filterPanel'),
+      panelSummaryHint: document.getElementById('panelSummaryHint'),
     };
 
     let data = null;
@@ -928,6 +962,7 @@
       } catch { excludedClubs = []; }
       els.customRange.classList.toggle('visible', els.zeitraum.value === 'custom');
       els.radiusValue.textContent = `${els.radius.value} km`;
+      els.filterPanel.open = safeGet(STORAGE_KEYS.panelOpen) !== '0';
       renderLigaChips();
       renderVereinChips();
       setView(safeGet(STORAGE_KEYS.view) || 'liste');
@@ -974,6 +1009,23 @@
         zeitBis: els.zeitBis.value,
         altersgruppe: els.altersgruppe.value,
       };
+    }
+
+    function updatePanelHint() {
+      if (els.filterPanel.open) {
+        els.panelSummaryHint.textContent = '';
+        return;
+      }
+      const { zeitraum, radiusKm, zeitVon, zeitBis, altersgruppe } = currentFilters();
+      const zeitraumLabels = { woche: 'Diese Woche', wochenende: 'Nächstes Wochenende', '4wochen': 'Nächste 4 Wochen', custom: 'Eigener Zeitraum' };
+      const parts = [];
+      if (home) parts.push(`📍 ${radiusKm} km um „${home.query}"`);
+      if (zeitraumLabels[zeitraum]) parts.push(zeitraumLabels[zeitraum]);
+      if (zeitVon || zeitBis) parts.push(`🕐 ${zeitVon || '…'}–${zeitBis || '…'}`);
+      if (altersgruppe !== 'alle') parts.push(altersgruppe === 'jugend' ? 'Nur Jugend' : 'Nur Senioren');
+      if (excludedLigas.size > 0) parts.push(`${excludedLigas.size} Liga${excludedLigas.size === 1 ? '' : 'en'} aus`);
+      if (excludedClubs.length > 0) parts.push(`${excludedClubs.length} Verein${excludedClubs.length === 1 ? '' : 'e'} aus`);
+      els.panelSummaryHint.textContent = parts.join(' · ');
     }
 
     function render() {
@@ -1076,6 +1128,7 @@
       if (filteredOutByVerein > 0) summaryParts.push(`${filteredOutByVerein} durch Vereins-Ausschluss ausgeblendet`);
       if (filteredOutByRadius > 0) summaryParts.push(`${filteredOutByRadius} außerhalb des Radius ausgeblendet`);
       els.filterSummary.textContent = summaryParts.join(' · ');
+      updatePanelHint();
 
       els.meta.textContent =
         `Stand: ${new Date(data.generatedAt).toLocaleString('de-DE')} · ${games.length} von ${data.openGames.length} offenen Spielen angezeigt · ` +
@@ -1138,6 +1191,11 @@
     }
 
     function bindEvents() {
+      els.filterPanel.addEventListener('toggle', () => {
+        safeSet(STORAGE_KEYS.panelOpen, els.filterPanel.open ? '1' : '0');
+        updatePanelHint();
+      });
+
       els.content.addEventListener('click', (e) => {
         if (e.target.closest('a, button')) return; // Route-Button etc. nicht abfangen
         const card = e.target.closest('.game.clickable');
