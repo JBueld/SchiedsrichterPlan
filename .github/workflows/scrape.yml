@@ -1,0 +1,51 @@
+name: Offene Spiele aktualisieren
+
+on:
+  schedule:
+    # Alle 6 Stunden. Läuft nur, sobald diese Datei auf dem Default-Branch liegt.
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Debug-Snapshots (HTML/Screenshots) als Artefakt hochladen'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm install
+
+      - run: npx playwright install --with-deps chromium
+
+      - name: Scraper ausführen
+        env:
+          WEEKS_AHEAD: '9'
+          DEBUG: ${{ inputs.debug && '1' || '0' }}
+        run: node scraper/scrape.mjs
+
+      - name: Debug-Artefakte hochladen
+        if: ${{ inputs.debug }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: scrape-debug
+          path: debug/
+          if-no-files-found: ignore
+
+      - name: Ergebnis committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data.json
+          git diff --cached --quiet || git commit -m "Aktualisiere offene Spiele"
+          git push

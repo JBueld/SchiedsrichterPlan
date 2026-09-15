@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Offene Spiele – HR West Niedersachsen</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f7f7f5;
+    --card-bg: #ffffff;
+    --text: #1c1c1c;
+    --muted: #6b6b6b;
+    --accent: #c0392b;
+    --border: #e4e4e0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15151a;
+      --card-bg: #1f1f26;
+      --text: #f0f0f0;
+      --muted: #9a9aa2;
+      --accent: #ff6b5b;
+      --border: #2c2c34;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 16px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  h1 {
+    font-size: 1.3rem;
+    margin: 0 0 4px;
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+  }
+  .day-group {
+    margin-bottom: 20px;
+  }
+  .day-heading {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0 0 8px;
+    color: var(--accent);
+  }
+  .game {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+  }
+  .game-time {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .game-league {
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-top: 2px;
+  }
+  .game-teams {
+    margin-top: 6px;
+    font-size: 0.95rem;
+  }
+  .empty, .error {
+    color: var(--muted);
+    padding: 24px 0;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <h1>Offene Spiele – HR West Niedersachsen</h1>
+  <div class="meta" id="meta">Lade Daten…</div>
+  <div id="content"></div>
+
+  <script>
+    async function load() {
+      const contentEl = document.getElementById('content');
+      const metaEl = document.getElementById('meta');
+      try {
+        const res = await fetch('data.json?_=' + Date.now());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+
+        const generated = new Date(data.generatedAt);
+        metaEl.textContent =
+          `Stand: ${generated.toLocaleString('de-DE')} · ${data.openGames.length} offene Spiele · ` +
+          `${data.weeksScanned} Wochen gescannt (${data.totalGamesSeen} Spiele insgesamt gesehen)`;
+
+        if (!data.openGames.length) {
+          contentEl.innerHTML = '<div class="empty">Aktuell keine offenen Spiele gefunden.</div>';
+          return;
+        }
+
+        const groups = new Map();
+        for (const g of data.openGames) {
+          const key = `${g.tag} ${g.datum}`;
+          if (!groups.has(key)) groups.set(key, []);
+          groups.get(key).push(g);
+        }
+
+        let html = '';
+        for (const [day, games] of groups) {
+          html += `<div class="day-group"><div class="day-heading">${escapeHtml(day)}</div>`;
+          for (const g of games) {
+            html += `
+              <div class="game">
+                <div class="game-time">${escapeHtml(g.zeit || '')}</div>
+                <div class="game-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${escapeHtml(g.staffel)}</div>
+                <div class="game-teams">${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
+              </div>`;
+          }
+          html += '</div>';
+        }
+        contentEl.innerHTML = html;
+      } catch (err) {
+        contentEl.innerHTML = `<div class="error">Fehler beim Laden der Daten: ${escapeHtml(err.message)}</div>`;
+        metaEl.textContent = '';
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, (c) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+      }[c]));
+    }
+
+    load();
+  </script>
+</body>
+</html>
