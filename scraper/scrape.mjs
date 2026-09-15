@@ -21,16 +21,34 @@
 // Die nuLiga-Seite antwortet vereinzelt mit einer Fehlerseite ("Fehler: Wert
 // fehlt") statt der erwarteten Wochenansicht; navigateToWeek() erkennt das und
 // versucht es nach einem Neuladen erneut.
+//
+// Hallenadressen: Der "Ort"-Code jedes Spiels (z.B. "809108") ist nur eine
+// interne Hallennummer. Über ein einfaches GET auf locationSearch mit
+// searchFor=<Ort-Code> liefert die Seite direkt Hallenname + Anschrift
+// zurück (resolveHallAddress). Die Anschrift wird per Nominatim (OSM)
+// einmalig geokodiert und in scraper/hallen-cache.json zwischengespeichert,
+// damit spätere Läufe bereits bekannte Hallen nicht erneut auflösen/geokodieren
+// müssen.
 
 import { chromium } from 'playwright';
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const BASE_URL =
   'https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/regionMeetingFilter?championship=HRWN+26%2F27';
+const LOCATION_SEARCH_URL =
+  'https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/locationSearch?federation=HVNB&searchFor=';
 
-const WEEKS_AHEAD = Number(process.env.WEEKS_AHEAD || 9);
+// Persistenter Cache: Ort-Code -> Hallenadresse + Koordinaten. Wird committet,
+// damit nicht bei jedem CI-Lauf alle Hallen neu aufgelöst/geokodiert werden
+// müssen (Nominatim-Nutzungsrichtlinie: sparsam anfragen, Ergebnisse cachen).
+const HALLEN_CACHE_FILE = path.join('scraper', 'hallen-cache.json');
+const NOMINATIM_USER_AGENT = 'SchiedsrichterPlan (https://github.com/JBueld/SchiedsrichterPlan)';
+
+// Ganze Saison (bis ca. Ende Juni), damit die Wochenend-/Intervallauswahl im
+// Frontend genug Auswahl hat - die Daten werden clientseitig gefiltert.
+const WEEKS_AHEAD = Number(process.env.WEEKS_AHEAD || 42);
 const DEBUG = process.env.DEBUG === '1';
 const OUTPUT_FILE = path.join('docs', 'data.json');
 const DEBUG_DIR = 'debug';
@@ -44,7 +62,9 @@ const NO_REFEREE_NEEDED = new Set([
 
 // "Vereins-Event"/"VE" markiert Freundschaftsturniere, die nicht offiziell
 // angesetzt werden. "Mini" (Minihandball) braucht ebenfalls keinen SR.
-const EXCLUDE_LIGA = new Set(['Vereins-Event', 'VE', 'Mini']);
+// VL/OL/RL (Verbandsliga/Oberliga/Regionalliga) pfeift der Nutzer grundsätzlich
+// nicht - unabhängig von der Altersklasse komplett ausschließen.
+const EXCLUDE_LIGA = new Set(['Vereins-Event', 'VE', 'Mini', 'VL', 'OL', 'RL']);
 
 const TABLE_COLUMNS = 13;
 
@@ -107,28 +127,35 @@ async function navigateToWeek(page, monday) {
   const label = monday.toISOString().slice(0, 10);
 
   for (let attempt = 1; attempt <= 3; attempt++) {
-    const currentMonth = await page.$eval('input[name="month"]:checked', (el) => el.value).catch(() => null);
-    if (currentMonth !== monthValue) {
-      await clickRadioAndWait(page, `input[name="month"][value="${monthValue}"]`);
-    }
+    try {
+      const currentMonth = await page.$eval('input[name="month"]:checked', (el) => el.value).catch(() => null);
+      if (currentMonth !== monthValue) {
+        await clickRadioAndWait(page, `input[name="month"][value="${monthValue}"]`);
+      }
 
-    const weekSelector = `input[name="dayOfYear"][value="${targetDay}"]`;
-    const weekRadio = await page.$(weekSelector);
-    if (!weekRadio) {
-      throw new Error(`Keine Woche mit dayOfYear=${targetDay} (Monat ${monthValue}) gefunden`);
-    }
-    const alreadyChecked = await page.$eval(weekSelector, (el) => el.checked);
-    if (!alreadyChecked) {
-      await clickRadioAndWait(page, weekSelector);
-    }
+      const weekSelector = `input[name="dayOfYear"][value="${targetDay}"]`;
+      const weekRadio = await page.$(weekSelector);
+      if (!weekRadio) {
+        throw new Error(`Keine Woche mit dayOfYear=${targetDay} (Monat ${monthValue}) gefunden`);
+      }
+      const alreadyChecked = await page.$eval(weekSelector, (el) => el.checked);
+      if (!alreadyChecked) {
+        await clickRadioAndWait(page, weekSelector);
+      }
 
-    if (await isHealthyCalendarPage(page)) return;
-
-    // Seite antwortet gelegentlich mit einer WebObjects-Fehlerseite statt der
-    // Wochenansicht - neu laden und erneut versuchen.
-    console.warn(`  Woche ${label}: unerwartete Antwort (Versuch ${attempt}/3) - lade neu`);
-    await dumpDebug(page, `error-${label}-attempt${attempt}`);
-    await page.goto(BASE_URL, { waitUntil: 'networkidle' });
+      if (await isHealthyCalendarPage(page)) return;
+      throw new Error('unerwartete Antwort (keine Kalenderseite)');
+    } catch (err) {
+      // Egal ob die Seite mit einer WebObjects-Fehlerseite antwortet, ein
+      // Selektor mitten im Klick-Ablauf plötzlich fehlt oder die Navigation
+      // hängt: der gesamte Versuch zählt als fehlgeschlagen. Wichtig ist,
+      // dass wir IMMER frisch von der Basis-URL neu laden, bevor wir es
+      // erneut versuchen - sonst hängt die Seite in einem kaputten Zustand
+      // fest und jede weitere Woche schlägt kaskadenartig fehl.
+      console.warn(`  Woche ${label}: Versuch ${attempt}/3 fehlgeschlagen (${err.message}) - lade neu`);
+      await dumpDebug(page, `error-${label}-attempt${attempt}`);
+      await page.goto(BASE_URL, { waitUntil: 'networkidle' }).catch(() => {});
+    }
   }
   throw new Error(`Woche ${label}: ließ sich nach mehreren Versuchen nicht laden`);
 }
@@ -152,7 +179,7 @@ function extractRows(cellRows) {
     const trimmed = cells.map((c) => c.trim());
     if (trimmed.length !== TABLE_COLUMNS) continue; // Fremdzeilen (z.B. Fehlerseiten) überspringen
 
-    let [tag, datum, zeit, , , ligaCell, staffel, heim, gast, ...rest] = trimmed;
+    let [tag, datum, zeit, ort, , ligaCell, staffel, heim, gast, ...rest] = trimmed;
 
     if (tag && tag === datum) {
       // Verschmolzene Tag+Datum-Zelle (colspan=2), z.B. "Termin offen".
@@ -181,6 +208,7 @@ function extractRows(cellRows) {
       tag: currentTag,
       datum: currentDatum,
       zeit,
+      ort,
       liga,
       altersklasse,
       staffel,
@@ -212,6 +240,7 @@ async function scrapeCurrentTable(page) {
 
 function isOpen(game) {
   if (EXCLUDE_LIGA.has(game.liga)) return false;
+  if (game.datum === 'Termin offen') return false; // noch kein Termin -> nicht sinnvoll planbar
   if (game.ergebnis) return false; // Spiel schon gelaufen
   if (game.schiedsrichter) return false; // schon angesetzt
   if (NO_REFEREE_NEEDED.has(game.altersklasse)) return false; // braucht keinen SR
@@ -224,7 +253,148 @@ function parseGermanDate(datum) {
   return new Date(Number(m[3]), Number(m[2]) - 1, Number(m[1]));
 }
 
-export { extractRows, isOpen, mondaysAhead, parseGermanDate, dayOfYear };
+export {
+  extractRows,
+  isOpen,
+  mondaysAhead,
+  parseGermanDate,
+  dayOfYear,
+  resolveHallAddress,
+  geocodeHall,
+  resolveHallen,
+  loadHallenCache,
+  saveHallenCache,
+};
+
+async function loadHallenCache() {
+  try {
+    return JSON.parse(await readFile(HALLEN_CACHE_FILE, 'utf8'));
+  } catch {
+    return {};
+  }
+}
+
+async function saveHallenCache(cache) {
+  await writeFile(HALLEN_CACHE_FILE, `${JSON.stringify(cache, null, 2)}\n`, 'utf8');
+}
+
+async function isErrorPage(page) {
+  return page.evaluate(() => document.body.textContent.includes('nuLiga - Fehlermeldung'));
+}
+
+// Löst einen Ort-Code (z.B. "809108") über die Hallensuche der nuLiga-Seite
+// auf. Ein einfaches GET auf locationSearch mit searchFor=<Ort-Code> liefert
+// direkt eine result-set-Tabelle mit Hallenname und Anschrift - kein Klicken
+// durch das Suchformular nötig.
+async function resolveHallAddress(page, ortCode) {
+  const url = `${LOCATION_SEARCH_URL}${encodeURIComponent(ortCode)}`;
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    await page.goto(url, { waitUntil: 'networkidle' });
+    if (await isErrorPage(page)) {
+      console.warn(`  Halle ${ortCode}: unerwartete Antwort (Versuch ${attempt}/3) - versuche erneut`);
+      continue;
+    }
+    const rows = await page.$$eval('table.result-set tr', (trs) =>
+      trs.slice(1).map((tr) => {
+        const tds = tr.querySelectorAll('td');
+        const name = (tds[0]?.textContent || '').replace(/\(\d+\)\s*$/, '').trim();
+        const addressCell = tds[1] || null;
+        const addressText = addressCell
+          ? Array.from(addressCell.childNodes)
+              .filter((n) => n.nodeType === Node.TEXT_NODE)
+              .map((n) => (n.textContent || '').trim())
+              .filter(Boolean)
+              .join(', ')
+          : '';
+        return { name, addressText };
+      })
+    );
+    return rows[0] || null;
+  }
+  console.warn(`  Halle ${ortCode}: ließ sich nach mehreren Versuchen nicht auflösen`);
+  return null;
+}
+
+async function geocodeAddress(query) {
+  if (!query) return null;
+  const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query)}`;
+  try {
+    const res = await fetch(url, { headers: { 'User-Agent': NOMINATIM_USER_AGENT } });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!data.length) return null;
+    return { lat: Number(data[0].lat), lon: Number(data[0].lon) };
+  } catch {
+    return null;
+  }
+}
+
+async function politeGeocode(query) {
+  // Nominatim-Nutzungsrichtlinie: max. 1 Anfrage/Sekunde.
+  await new Promise((resolve) => setTimeout(resolve, 1100));
+  return geocodeAddress(query);
+}
+
+// Ortsteil-Zusätze wie "(OT Mitte)" oder Detailhinweise wie "hinter Halle Nr.
+// 806126" stehen zwar auf der nuLiga-Seite, verhindern bei Nominatim aber oft
+// einen Treffer für die sonst korrekte Adresse.
+function cleanAddressText(addressText) {
+  return addressText
+    .replace(/\([^)]*\)/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+// Manche Straßen/Hallen sind in OpenStreetMap schlicht nicht erfasst. Als
+// Fallback wenigstens auf PLZ+Ort geokodieren (Genauigkeit auf Ortsebene
+// reicht für eine Umkreis-Suche in km allemal).
+async function geocodeHall(addressText) {
+  if (!addressText) return null;
+  const cleaned = cleanAddressText(addressText);
+  const full = await politeGeocode(`${cleaned}, Deutschland`);
+  if (full) return full;
+  const plzOrt = cleaned.match(/\d{5}\s+.+$/);
+  if (plzOrt) {
+    return politeGeocode(`${plzOrt[0]}, Deutschland`);
+  }
+  return null;
+}
+
+// Löst alle übergebenen Ort-Codes zu Hallenname/-adresse/-koordinaten auf.
+// Bereits im Cache vorhandene Hallen werden übersprungen (weder erneute
+// nuLiga-Anfrage noch erneutes Geokodieren).
+async function resolveHallen(page, ortCodes, cache) {
+  const hallen = {};
+  for (const ort of ortCodes) {
+    if (cache[ort]) {
+      hallen[ort] = cache[ort];
+      continue;
+    }
+    try {
+      console.log(`  Halle ${ort}: löse Adresse auf...`);
+      const hall = await resolveHallAddress(page, ort);
+      if (!hall) {
+        console.warn(`  Halle ${ort}: keine Adresse gefunden`);
+        continue;
+      }
+      const coords = await geocodeHall(hall.addressText);
+      if (!coords) {
+        console.warn(`  Halle ${ort}: Adresse "${hall.addressText}" ließ sich nicht geokodieren`);
+      }
+      const entry = {
+        name: hall.name,
+        address: hall.addressText,
+        lat: coords?.lat ?? null,
+        lon: coords?.lon ?? null,
+      };
+      cache[ort] = entry;
+      hallen[ort] = entry;
+    } catch (err) {
+      console.error(`  Halle ${ort}: Fehler - ${err.message}`);
+    }
+  }
+  return hallen;
+}
 
 async function main() {
   const browser = await chromium.launch();
@@ -250,10 +420,11 @@ async function main() {
       }
     } catch (err) {
       console.error(`  Woche ${label}: Fehler - ${err.message}`);
+      // Für die nächste Woche garantiert wieder von einer sauberen Basisseite
+      // starten, statt einen eventuell kaputten Zustand mitzuschleppen.
+      await page.goto(BASE_URL, { waitUntil: 'networkidle' }).catch(() => {});
     }
   }
-
-  await browser.close();
 
   const openGames = [...allGames.values()]
     .filter(isOpen)
@@ -266,6 +437,15 @@ async function main() {
 
   console.log(`Insgesamt ${allGames.size} Spiele gesehen, davon ${openGames.length} offen.`);
 
+  const hallenCache = await loadHallenCache();
+  const ortCodes = [...new Set(openGames.map((g) => g.ort).filter(Boolean))];
+  const neueHallen = ortCodes.filter((o) => !hallenCache[o]).length;
+  console.log(`Löse Hallenadressen für ${ortCodes.length} Hallen auf (${neueHallen} neu)...`);
+  const hallen = await resolveHallen(page, ortCodes, hallenCache);
+  await saveHallenCache(hallenCache);
+
+  await browser.close();
+
   await mkdir(path.dirname(OUTPUT_FILE), { recursive: true });
   await writeFile(
     OUTPUT_FILE,
@@ -275,6 +455,7 @@ async function main() {
         weeksScanned: weeks.length,
         totalGamesSeen: allGames.size,
         openGames,
+        hallen,
       },
       null,
       2

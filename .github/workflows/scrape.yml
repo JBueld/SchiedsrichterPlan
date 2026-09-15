@@ -30,7 +30,7 @@ jobs:
 
       - name: Scraper ausführen
         env:
-          WEEKS_AHEAD: '9'
+          WEEKS_AHEAD: '42'
           DEBUG: ${{ inputs.debug && '1' || '0' }}
         run: node scraper/scrape.mjs
 
@@ -46,6 +46,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/data.json
+          git add docs/data.json scraper/hallen-cache.json
           git diff --cached --quiet || git commit -m "Aktualisiere offene Spiele"
           git push

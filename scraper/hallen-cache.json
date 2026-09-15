@@ -1,0 +1,536 @@
+{
+  "802102": {
+    "name": "Aurich-Mitte, SH",
+    "address": "Am Ellernfeld, 26603 Aurich (OT Mitte)",
+    "lat": 53.4654122,
+    "lon": 7.4795415
+  },
+  "802103": {
+    "name": "Aurich-Haxtum, BBS SZ West",
+    "address": "Am Schulzentrum, 26605 Aurich (OT Haxtum)",
+    "lat": 53.4653558,
+    "lon": 7.4626052
+  },
+  "802105": {
+    "name": "Aurich-Sandhorst, Waldorfschule",
+    "address": "Schulstraße 35, 26603 Aurich (OT Sandhorst)",
+    "lat": 53.4855584,
+    "lon": 7.4914726
+  },
+  "802120": {
+    "name": "Hage, SZ",
+    "address": "Bahnhofstraße, 26524 Hage",
+    "lat": 53.6050733,
+    "lon": 7.2835064
+  },
+  "802125": {
+    "name": "Ihlow-Ihlowerfehn, MZH",
+    "address": "2. Kompanieweg, 26632 Ihlow (OT Ihlowerfehn)",
+    "lat": 53.407051,
+    "lon": 7.4387935
+  },
+  "802128": {
+    "name": "Marienhafe, Kurt - Knippelmeyer-SH",
+    "address": "Speckweg, 26529 Marienhafe",
+    "lat": 53.5217011,
+    "lon": 7.2782603
+  },
+  "802136": {
+    "name": "Norderney, SZ",
+    "address": "An der Mühle, 26548 Norderney",
+    "lat": 53.7060502,
+    "lon": 7.1581856
+  },
+  "802138": {
+    "name": "Großefehn-Ostgroßefehn, SH O-Stufe",
+    "address": "Am Schulzentrum 4, 26629 Großefehn (OT Ostgroßefehn)",
+    "lat": 53.402987,
+    "lon": 7.6071998
+  },
+  "803102": {
+    "name": "Bad Bentheim, Schürkamphalle",
+    "address": "Schürkamp, 48455 Bad Bentheim",
+    "lat": 52.2995052,
+    "lon": 7.1573084
+  },
+  "803104": {
+    "name": "Meppen-Elsterfeld, Anne Frank Halle",
+    "address": "Am Stadtforst 8, 47916 Meppen  (Elsterfeld)",
+    "lat": 52.6973828,
+    "lon": 7.2676682
+  },
+  "803105": {
+    "name": "Geeste-Dalum, SH",
+    "address": "Am Rathaus/Neuer Diek, 49744 Geeste (OT Dalum)",
+    "lat": 52.6100559,
+    "lon": 7.2414828
+  },
+  "803109": {
+    "name": "Emlichheim, Herbert Taube Halle",
+    "address": "Lägen Diek, 49824 Emlichheim",
+    "lat": 52.6042766,
+    "lon": 6.8544803
+  },
+  "803117": {
+    "name": "Haren, SZ Jahnstraße",
+    "address": "Jahnstraße 1, 49733 Haren",
+    "lat": 52.7890208,
+    "lon": 7.2399513
+  },
+  "803119": {
+    "name": "Herzlake, SZ",
+    "address": "Bookhofer Straße, 49770 Herzlake",
+    "lat": 52.6816864,
+    "lon": 7.597712
+  },
+  "803124": {
+    "name": "Lingen-Darme, Friedensschule",
+    "address": "Kiesbergstraße 80, 49809 Lingen (OT Darme)",
+    "lat": 52.5069923,
+    "lon": 7.3298916
+  },
+  "803126": {
+    "name": "Lingen, G Johanneum",
+    "address": "Kardinal-von-Galen-Straße 7, 49809 Lingen",
+    "lat": 52.5318803,
+    "lon": 7.3342583
+  },
+  "803130": {
+    "name": "Meppen-Altstadt, Nagelshof I  (Stadt-SH)",
+    "address": "Nagelshof, 49716 Meppen (OT Altstadt)",
+    "lat": 52.6903702,
+    "lon": 7.2867499
+  },
+  "803132": {
+    "name": "Meppen-Altstadt, Windhorst-G",
+    "address": "Gymnasialstraße 1, 49716 Meppen (OT Altstadt)",
+    "lat": 52.6904723,
+    "lon": 7.2924844
+  },
+  "803135": {
+    "name": "Meppen, Kardinal-von-Galen-Halle",
+    "address": "Dammstr., 49716 Meppen",
+    "lat": 52.6960759,
+    "lon": 7.3125415
+  },
+  "803137": {
+    "name": "Nordhorn, KSH 3 Euregium",
+    "address": "Wilhelm-Raabe-Str.  15, 48527 Nordhorn",
+    "lat": 52.4281172,
+    "lon": 7.0592233
+  },
+  "803138": {
+    "name": "Nordhorn-Mitte, KSH I Euregium",
+    "address": "Wilhelm-Raabe-Straße 15, 48527 Nordhorn (OT Mitte)",
+    "lat": 52.4281172,
+    "lon": 7.0592233
+  },
+  "803139": {
+    "name": "Nordhorn, KSH II Euregium",
+    "address": "Wilhelm-Raabe-Straße 15, 48527 Nordhorn (OT Mitte)",
+    "lat": 52.4281172,
+    "lon": 7.0592233
+  },
+  "803140": {
+    "name": "Nordhorn, SZ Nordhorn-Deegfeld",
+    "address": "Deegfelder Weg 90, 48531 Nordhorn (OT Deegfeld)",
+    "lat": 52.4504917,
+    "lon": 7.0726706
+  },
+  "803145": {
+    "name": "Papenburg, BBZ",
+    "address": "Fahnenweg, 26871 Papenburg",
+    "lat": 53.0805569,
+    "lon": 7.40717
+  },
+  "803150": {
+    "name": "Schüttorf, SH Jahn",
+    "address": "Jahnstraße, 48465 Schüttorf",
+    "lat": 52.3204579,
+    "lon": 7.2155975
+  },
+  "803152": {
+    "name": "Sögel, Erich-Kästner-Schule",
+    "address": "Im Eickel, 49751 Sögel",
+    "lat": 52.839521,
+    "lon": 7.527246
+  },
+  "803153": {
+    "name": "Sögel, Großraum-SH",
+    "address": "Schlaunallee 14, 49751 Sögel",
+    "lat": 52.8390418,
+    "lon": 7.5309327
+  },
+  "803157": {
+    "name": "Uelsen, SZ Eschweg",
+    "address": "Eschweg, 49843 Uelsen",
+    "lat": 52.4902842,
+    "lon": 6.8898197
+  },
+  "803159": {
+    "name": "Salzbergen, Dreifachsporthalle am Bruchweg",
+    "address": "Bruchweg, 48499 Salzbergen",
+    "lat": 52.3176459,
+    "lon": 7.3399191
+  },
+  "803160": {
+    "name": "Sporthalle Brökersfehn",
+    "address": "Taubenweg 4, 49757 Werlte",
+    "lat": 52.8566567,
+    "lon": 7.6761071
+  },
+  "803163": {
+    "name": "Lohne, Mehrzweckhalle",
+    "address": "Jahnstr. 8, 49835 Wietmarschen (Lohne)",
+    "lat": 52.4977132,
+    "lon": 7.2321609
+  },
+  "803169": {
+    "name": "Wilsum, SH",
+    "address": "Echteler Straße 2a, 49849 Wilsum",
+    "lat": 52.5477635,
+    "lon": 6.8204629
+  },
+  "803173": {
+    "name": "Wietkamphalle",
+    "address": "Wietkampstr., 48465 Schüttorf",
+    "lat": 52.3243779,
+    "lon": 7.2159816
+  },
+  "803178": {
+    "name": "Sportzentrum DinkelDuo Neuenhaus",
+    "address": "Schulstraße 6, 49828 Neuenhaus",
+    "lat": 52.4959066,
+    "lon": 6.965388
+  },
+  "806105": {
+    "name": "Westoverledingen-Collhusen, SZ",
+    "address": "Schulstraße, 26810 Westoverledingen (OT Collhusen)",
+    "lat": 53.1325987,
+    "lon": 7.4537235
+  },
+  "806106": {
+    "name": "Emden, Max-Windmüller-Halle",
+    "address": "Theaterstraße, 26721 Emden",
+    "lat": 53.3832158,
+    "lon": 7.206936
+  },
+  "806107": {
+    "name": "Emden, SH BW Borssum",
+    "address": "Wykhoffweg, 26725 Emden",
+    "lat": 53.3541031,
+    "lon": 7.2431911
+  },
+  "806109": {
+    "name": "Emden, SH BBS II",
+    "address": "Steinweg, 26721 Emden",
+    "lat": 53.3761539,
+    "lon": 7.1993247
+  },
+  "806113": {
+    "name": "Ostrhauderfehn, HRS",
+    "address": "Hauptstraße 155, 26842 Ostrhauderfehn",
+    "lat": 53.1392288,
+    "lon": 7.6312935
+  },
+  "806123": {
+    "name": "Leer, SH Ubbo-Emmius-Gymnasium",
+    "address": "Schillerstraße, 26789 26789 Leer",
+    "lat": 53.2328789,
+    "lon": 7.4507649
+  },
+  "806128": {
+    "name": "Rhauderfehn, SH 2 SZ",
+    "address": "Werftstraße hinter Halle Nr. 806126, 26817 Rhauderfehn",
+    "lat": 53.1228385,
+    "lon": 7.5476184
+  },
+  "806134": {
+    "name": "Moormerland-Warsingfehn, SZ",
+    "address": "Heinrich-Lübke-Straße, 26802 Moormerland (OT Warsingsfehn)",
+    "lat": 53.3122118,
+    "lon": 7.4850071
+  },
+  "806135": {
+    "name": "Oberschule Weener",
+    "address": "Floorenstraße, 26826 Weener",
+    "lat": 53.1632724,
+    "lon": 7.3249843
+  },
+  "808101": {
+    "name": "Osnabrück, Graf-Stauffenberg-G",
+    "address": "Gottlieb-Planck-Straße, 49080 Osnabrück (OT Schölerberg)",
+    "lat": 52.259301,
+    "lon": 8.051382
+  },
+  "808102": {
+    "name": "Osnabrück, Möser RS (ehemals Emma)",
+    "address": "Arndtstraße 1, 49078 Osnabrück (OT Altstadt)",
+    "lat": 52.2744667,
+    "lon": 8.0377668
+  },
+  "808103": {
+    "name": "Osnabrück, KGS Osnabrück-Schinkel",
+    "address": "Windthorststraße 79-83, 49084 Osnabrück (OT Schinkel)",
+    "lat": 52.2839452,
+    "lon": 8.0961379
+  },
+  "808104": {
+    "name": "Osnabrück, Vereins-SH OSC",
+    "address": "Hiärm-Grupe-Straße 8, 49080 Osnabrück (OT Wüste)",
+    "lat": 52.2676571,
+    "lon": 8.0240437
+  },
+  "808105": {
+    "name": "Osnabrück, SZ",
+    "address": "Grüner Weg, 49090 Osnabrück (OT Eversburg)",
+    "lat": 52.2991693,
+    "lon": 8.0008618
+  },
+  "808107": {
+    "name": "Osnabrück, SZ Sonnenhügel",
+    "address": "Knollstraße 143, 49088 Osnabrück (OT Dodesheide)",
+    "lat": 52.2929063,
+    "lon": 8.0588869
+  },
+  "808121": {
+    "name": "Bissendorf, SH",
+    "address": "Werscher Straße 24, 49143 Bissendorf",
+    "lat": 52.2378009,
+    "lon": 8.1765925
+  },
+  "808122": {
+    "name": "Belm, Sportzentrum Belm",
+    "address": "Heideweg 25, 49191 Belm",
+    "lat": 52.2994545,
+    "lon": 8.1344281
+  },
+  "808125": {
+    "name": "Bohmte, SZ",
+    "address": "Jahnstraße, 49163 Bohmte",
+    "lat": 52.3727143,
+    "lon": 8.3124079
+  },
+  "808126": {
+    "name": "Sporthalle Bramsche Gymnasium",
+    "address": "Malgartener Straße 52, 49565 Bramsche",
+    "lat": 52.4133437,
+    "lon": 7.9952951
+  },
+  "808128": {
+    "name": "Sporthalle Bramsche IGS",
+    "address": "Malgartener Straße 58, 49565 Bramsche",
+    "lat": 52.4151133,
+    "lon": 7.9963924
+  },
+  "808129": {
+    "name": "Bad Iburg, Schulzentrum Halle 1",
+    "address": "Bielefelder Str. 15, 49186 Bad Iburg",
+    "lat": 52.1525476,
+    "lon": 8.0479032
+  },
+  "808132": {
+    "name": "Georgsmarienhütte, SZ",
+    "address": "Carl-Stahmer-Weg 16, 49124 Georgsmarienhütte",
+    "lat": 52.2028169,
+    "lon": 8.0532092
+  },
+  "808134": {
+    "name": "Hagen a.T.W., SH -Gellenbeck",
+    "address": "Görsmannstrasse 14, 49170 Hagen a.T.W. (OT Gellenbeck)",
+    "lat": 52.2003169,
+    "lon": 7.9417119
+  },
+  "808135": {
+    "name": "Hasbergen, SH Alt",
+    "address": "Schulstraße, 49205 Hasbergen",
+    "lat": 52.237974,
+    "lon": 7.9525828
+  },
+  "808139": {
+    "name": "Melle, Sporthalle Haferstraße",
+    "address": "Haferstr. 60, 49324 Melle (OT Mitte)",
+    "lat": 52.1984662,
+    "lon": 8.3399046
+  },
+  "808144": {
+    "name": "Melle, Sporthalle Schulzentrum Neuenkirchen (neu)",
+    "address": "Ottenheider Weg 18, 49326 Melle (OT Neuenkirchen)",
+    "lat": 52.1383222,
+    "lon": 8.3826932
+  },
+  "808146": {
+    "name": "Melle, Sporthalle Eicken-Bruche",
+    "address": "Segelfliegerweg 11, 49324 Melle",
+    "lat": 52.2113432,
+    "lon": 8.3749095
+  },
+  "808149": {
+    "name": "Melle, Sporthalle Sportzentrum Wellingholzhausen",
+    "address": "Uhlandstr. 28, 49326 Melle (OT Wellingholzhausen)",
+    "lat": 52.1604305,
+    "lon": 8.2581069
+  },
+  "808151": {
+    "name": "Wallenhorst, Alexanderschule",
+    "address": "Maria-Montessoristrasse 3-6, 49134 Wallenhorst",
+    "lat": 52.3474672,
+    "lon": 8.0126739
+  },
+  "808154": {
+    "name": "Ankum, Ballsporthalle",
+    "address": "Am Kattenboll, 49577 Ankum",
+    "lat": 52.5455359,
+    "lon": 7.8847655
+  },
+  "808158": {
+    "name": "Osnabrück-Hellern, Ballsporthalle Große Schulstrasse",
+    "address": "Große Schulstr. 83 A, 49078 Osnabrück-Hellern",
+    "lat": 52.2628485,
+    "lon": 7.9848547
+  },
+  "808177": {
+    "name": "Westerkappeln, SH",
+    "address": "Osnabrücker Straße, 49492 Westerkappeln",
+    "lat": 52.3130286,
+    "lon": 7.8823402
+  },
+  "808180": {
+    "name": "Georgsmarienhütte, SH Oesede-Süd",
+    "address": "Südring 60, 49124 Georgsmarienhütte",
+    "lat": 52.1967185,
+    "lon": 8.0631629
+  },
+  "808181": {
+    "name": "Bad Laer Neue Turnhalle",
+    "address": "An der Turnhalle, 49196 Bad Laer",
+    "lat": 52.1022914,
+    "lon": 8.0792354
+  },
+  "808183": {
+    "name": "Lüstringen, Sporthalle",
+    "address": "Am Hallenbad 5, 49086 Osnabrück (OT Lüstringen)",
+    "lat": 52.2729138,
+    "lon": 8.1306099
+  },
+  "809101": {
+    "name": "Cappeln, SH",
+    "address": "Schulstraße 10, 49692 Cappeln",
+    "lat": 52.8100109,
+    "lon": 8.1115866
+  },
+  "809102": {
+    "name": "Cloppenburg, TVC-SH",
+    "address": "Schulstraße, 49661 Cloppenburg",
+    "lat": 52.8468712,
+    "lon": 8.0574438
+  },
+  "809105": {
+    "name": "Damme, HS",
+    "address": "Schützenstraße 1, 49401 Damme",
+    "lat": 52.5228954,
+    "lon": 8.184258
+  },
+  "809107": {
+    "name": "Dinklage, SH 1 SZ",
+    "address": "Schulstraße, 49413 Dinklage",
+    "lat": 52.658703,
+    "lon": 8.1265279
+  },
+  "809108": {
+    "name": "Dinklage, SH 2 SZ",
+    "address": "Schulstraße, 49413 Dinklage",
+    "lat": 52.658703,
+    "lon": 8.1265279
+  },
+  "809110": {
+    "name": "Emstek, SZ",
+    "address": "Ostlandstr. 17, 49685 Emstek",
+    "lat": 52.8367844,
+    "lon": 8.159761
+  },
+  "809115": {
+    "name": "Garrel, SZ",
+    "address": "St.-Johannes-Straße, 49681 Garrel",
+    "lat": 52.9551597,
+    "lon": 8.0279122
+  },
+  "809116": {
+    "name": "Goldenstedt, SZ",
+    "address": "An der Marienschule, 49424 Goldenstedt",
+    "lat": 52.7707323,
+    "lon": 8.401851
+  },
+  "809118": {
+    "name": "Holdorf, SZ",
+    "address": "Große Eschstraße, 49451 Holdorf",
+    "lat": 52.5800281,
+    "lon": 8.1336867
+  },
+  "809126": {
+    "name": "Lohne, SH",
+    "address": "An der Kirchenziegelei, 49393 Lohne",
+    "lat": 52.6733137,
+    "lon": 8.2458724
+  },
+  "809129": {
+    "name": "Essen, Halle Oberschule",
+    "address": "Quakenbrücker Str. 2, 49632 Essen",
+    "lat": 52.7131215,
+    "lon": 7.9342375
+  },
+  "809130": {
+    "name": "Steinfeld-Mühlen, SZ",
+    "address": "Am Schulplatz, 49439 Steinfeld (OT Mühlen)",
+    "lat": 52.6150496,
+    "lon": 8.2164542
+  },
+  "809133": {
+    "name": "Damme-Osterfeine, VSH SWO",
+    "address": "Klünenberg 11, 49401 Damme (OT Osterfeine)",
+    "lat": 52.549486,
+    "lon": 8.2727803
+  },
+  "809137": {
+    "name": "Diepholz, SH Mühlenkamp",
+    "address": "Moorstraße 39, 49356 Diepholz",
+    "lat": 52.5999728,
+    "lon": 8.3450166
+  },
+  "809138": {
+    "name": "Steinfeld, SZ",
+    "address": "Am Mühlenbach  5, 49439 Steinfeld",
+    "lat": 52.585212,
+    "lon": 8.215808
+  },
+  "809140": {
+    "name": "Vechta-West, SH",
+    "address": "Brüsseler Str. 37, 49377 Vechta",
+    "lat": 52.7279601,
+    "lon": 8.2676837
+  },
+  "809143": {
+    "name": "Lemförde, SZ",
+    "address": "Stettiner Str. 35, 49448 Lemförde",
+    "lat": 52.4659365,
+    "lon": 8.3705802
+  },
+  "809146": {
+    "name": "Wagenfeld, SZ",
+    "address": "Branntweinsweg, 49419 Wagenfeld",
+    "lat": 52.5475969,
+    "lon": 8.5850138
+  },
+  "809148": {
+    "name": "Barnstorf, SH 2 SZ",
+    "address": "Walsener Str., 49406 Barnstorf",
+    "lat": 52.7125112,
+    "lon": 8.5002594
+  },
+  "809149": {
+    "name": "Schulzentrum Barßel",
+    "address": "Westmarkstr. 3, 26676 Barßel",
+    "lat": 53.1664771,
+    "lon": 7.7384016
+  }
+}

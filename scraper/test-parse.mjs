@@ -7,8 +7,6 @@
 import assert from 'node:assert/strict';
 import { extractRows, isOpen, mondaysAhead, dayOfYear } from './scrape.mjs';
 
-const EMPTY4 = ['', '', '', ''];
-
 // Zeilen nachgebaut aus echten Live-Snapshots des HVNB-Regionsspielplans
 // (13 Spalten: Tag, Datum, Zeit, Ort, Nr., "Liga Altersklasse", Staffel,
 // Heimmannschaft, Gastmannschaft, Ergebnis/Schiedsrichter, Reserve x3).
@@ -27,26 +25,30 @@ const sampleRows = [
   ['', '', '11:30', '803105', '1', 'Vereins-Event MJF', 'Handballturnier', 'SV Dalum 1', 'SG Neuenhaus/Uelsen 1', '', '', '', ''],
   // Minihandball -> ausgeschlossen (kein SR nötig, kein Altersklassen-Code)
   ['Sa', '19.09.2026', '10:00', '809107', '2', 'Mini', '26.09.2026 Dinklage', 'SFN Vechta II', 'SFN Vechta III', '', '', '', ''],
-  // "Termin offen": Tag+Datum per colspan zu einer Zelle verschmolzen -> offen
+  // "Termin offen": Tag+Datum per colspan zu einer Zelle verschmolzen -> ausgeschlossen (kein Termin)
   ['Termin offen', 'Termin offen', '', '808146', '8', 'ReK M', 'Regionsklasse M Süd', 'Eickener SpVg II', 'Eickener SpVg III', '', '', '', ''],
+  // Verbandsliga -> ausgeschlossen (Nutzer pfeift VL/OL/RL grundsätzlich nicht)
+  ['So', '20.09.2026', '17:00', '808134', '9', 'VL M', 'Verbandsliga M West', 'SG Teuto Handball', 'TuS Bramsche', '', '', '', ''],
 ];
 
 const games = extractRows(sampleRows);
 console.log('Geparste Spiele:', games.length);
 for (const g of games) console.log(' -', g.datum, g.zeit, g.liga, g.altersklasse, g.heim, 'vs', g.gast, '| Erg:', g.ergebnis, '| SR:', g.schiedsrichter);
 
-assert.equal(games.length, 7, 'Es sollten 7 Spielzeilen erkannt werden');
+assert.equal(games.length, 8, 'Es sollten 8 Spielzeilen erkannt werden');
+assert.equal(games[0].ort, '809108', 'Der Ort-Code (Hallennummer) muss erfasst werden');
 
 const open = games.filter(isOpen);
 console.log('\nOffene Spiele:', open.length);
 for (const g of open) console.log(' -', g.datum, g.zeit, g.liga, g.altersklasse, g.heim, 'vs', g.gast);
 
-assert.equal(open.length, 3, 'Es sollten genau 3 offene Spiele erkannt werden (MJC, M, Termin offen)');
+assert.equal(open.length, 2, 'Es sollten genau 2 offene Spiele erkannt werden (MJC, ROL M)');
 assert.ok(open.some((g) => g.altersklasse === 'MJC'));
 assert.ok(open.some((g) => g.altersklasse === 'M' && g.heim === 'SV Concordia Belm-Powe e.V.'));
-assert.ok(open.some((g) => g.datum === 'Termin offen'));
 assert.ok(!open.some((g) => g.liga === 'Vereins-Event'), 'Vereins-Event darf nie offen sein');
 assert.ok(!open.some((g) => g.liga === 'Mini'), 'Minihandball darf nie offen sein');
+assert.ok(!open.some((g) => g.liga === 'VL'), 'Verbandsliga darf nie offen sein');
+assert.ok(!open.some((g) => g.datum === 'Termin offen'), 'Spiele ohne festen Termin dürfen nicht offen sein');
 
 // Zeilen mit abweichender Spaltenzahl (z.B. eine WebObjects-Fehlerseite mit
 // eigenem kleinem Tabellenlayout) müssen ignoriert werden, statt Chaos anzurichten.

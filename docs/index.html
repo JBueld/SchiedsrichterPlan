@@ -9,19 +9,25 @@
     color-scheme: light dark;
     --bg: #f7f7f5;
     --card-bg: #ffffff;
+    --panel-bg: #ffffff;
     --text: #1c1c1c;
     --muted: #6b6b6b;
     --accent: #c0392b;
     --border: #e4e4e0;
+    --input-bg: #ffffff;
+    --chip-bg: #f1f1ee;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #15151a;
       --card-bg: #1f1f26;
+      --panel-bg: #1f1f26;
       --text: #f0f0f0;
       --muted: #9a9aa2;
       --accent: #ff6b5b;
       --border: #2c2c34;
+      --input-bg: #26262e;
+      --chip-bg: #2a2a33;
     }
   }
   * { box-sizing: border-box; }
@@ -33,105 +39,543 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
   h1 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     margin: 0 0 4px;
   }
   .meta {
     color: var(--muted);
     font-size: 0.85rem;
+    margin-bottom: 14px;
+  }
+  .panel {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--panel-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
     margin-bottom: 16px;
+    display: grid;
+    gap: 10px;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .field label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .row > .field {
+    flex: 1 1 160px;
+    min-width: 140px;
+  }
+  input, select {
+    background: var(--input-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 9px;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+  input[type="range"] {
+    padding: 0;
+  }
+  .radius-value {
+    font-size: 0.8rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .radius-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .status-text {
+    font-size: 0.78rem;
+    min-height: 1.1em;
+  }
+  .status-text.ok { color: #2e8b57; }
+  .status-text.error { color: var(--accent); }
+  .panel-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .link-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0;
+    width: auto;
   }
   .day-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
   .day-heading {
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     margin: 0 0 8px;
     color: var(--accent);
+    position: sticky;
+    top: 0;
   }
   .game {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 12px 14px;
+    padding: 10px 14px;
     margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: flex-start;
   }
+  .game-main { min-width: 0; }
   .game-time {
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
   .game-league {
     color: var(--muted);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     margin-top: 2px;
   }
   .game-teams {
-    margin-top: 6px;
-    font-size: 0.95rem;
+    margin-top: 5px;
+    font-size: 0.92rem;
+  }
+  .game-hall {
+    margin-top: 5px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .game-distance {
+    flex: 0 0 auto;
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .game-distance .km {
+    display: block;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text);
+  }
+  .chip {
+    display: inline-block;
+    background: var(--chip-bg);
+    border-radius: 999px;
+    padding: 1px 8px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-left: 6px;
   }
   .empty, .error {
     color: var(--muted);
     padding: 24px 0;
     text-align: center;
   }
+  #customRange {
+    display: none;
+  }
+  #customRange.visible {
+    display: flex;
+  }
 </style>
 </head>
 <body>
   <h1>Offene Spiele – HR West Niedersachsen</h1>
   <div class="meta" id="meta">Lade Daten…</div>
+
+  <div class="panel">
+    <div class="row">
+      <div class="field">
+        <label for="ort">Mein Standort</label>
+        <input id="ort" type="text" placeholder="z.B. Musterstraße 1, 12345 Musterstadt" autocomplete="off" />
+      </div>
+      <div class="field" style="flex: 0 0 200px;">
+        <label for="radius">Radius <span class="radius-value" id="radiusValue"></span></label>
+        <div class="radius-row">
+          <input id="radius" type="range" min="5" max="150" step="5" value="30" />
+        </div>
+      </div>
+    </div>
+    <div class="status-text" id="ortStatus"></div>
+
+    <div class="row">
+      <div class="field">
+        <label for="zeitraum">Zeitraum</label>
+        <select id="zeitraum">
+          <option value="alle">Alle</option>
+          <option value="woche">Diese Woche</option>
+          <option value="wochenende">Nächstes Wochenende</option>
+          <option value="4wochen">Nächste 4 Wochen</option>
+          <option value="custom">Eigener Zeitraum…</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="sortierung">Sortierung</label>
+        <select id="sortierung">
+          <option value="datum">Datum</option>
+          <option value="entfernung">Entfernung</option>
+        </select>
+      </div>
+    </div>
+    <div class="row" id="customRange">
+      <div class="field">
+        <label for="von">Von</label>
+        <input id="von" type="date" />
+      </div>
+      <div class="field">
+        <label for="bis">Bis</label>
+        <input id="bis" type="date" />
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <span id="filterSummary"></span>
+      <button class="link-btn" id="resetBtn" type="button">Filter zurücksetzen</button>
+    </div>
+  </div>
+
   <div id="content"></div>
 
   <script>
-    async function load() {
-      const contentEl = document.getElementById('content');
-      const metaEl = document.getElementById('meta');
-      try {
-        const res = await fetch('data.json?_=' + Date.now());
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
+    const STORAGE_KEYS = {
+      home: 'srp_home_v1',
+      radius: 'srp_radius_v1',
+      zeitraum: 'srp_zeitraum_v1',
+      sortierung: 'srp_sortierung_v1',
+      von: 'srp_von_v1',
+      bis: 'srp_bis_v1',
+    };
 
-        const generated = new Date(data.generatedAt);
-        metaEl.textContent =
-          `Stand: ${generated.toLocaleString('de-DE')} · ${data.openGames.length} offene Spiele · ` +
-          `${data.weeksScanned} Wochen gescannt (${data.totalGamesSeen} Spiele insgesamt gesehen)`;
-
-        if (!data.openGames.length) {
-          contentEl.innerHTML = '<div class="empty">Aktuell keine offenen Spiele gefunden.</div>';
-          return;
-        }
-
-        const groups = new Map();
-        for (const g of data.openGames) {
-          const key = `${g.tag} ${g.datum}`;
-          if (!groups.has(key)) groups.set(key, []);
-          groups.get(key).push(g);
-        }
-
-        let html = '';
-        for (const [day, games] of groups) {
-          html += `<div class="day-group"><div class="day-heading">${escapeHtml(day)}</div>`;
-          for (const g of games) {
-            html += `
-              <div class="game">
-                <div class="game-time">${escapeHtml(g.zeit || '')}</div>
-                <div class="game-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${escapeHtml(g.staffel)}</div>
-                <div class="game-teams">${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
-              </div>`;
-          }
-          html += '</div>';
-        }
-        contentEl.innerHTML = html;
-      } catch (err) {
-        contentEl.innerHTML = `<div class="error">Fehler beim Laden der Daten: ${escapeHtml(err.message)}</div>`;
-        metaEl.textContent = '';
-      }
+    function safeGet(key) {
+      try { return localStorage.getItem(key); } catch { return null; }
+    }
+    function safeSet(key, value) {
+      try { localStorage.setItem(key, value); } catch { /* z.B. privater Modus - einfach ignorieren */ }
+    }
+    function safeRemove(key) {
+      try { localStorage.removeItem(key); } catch { /* ignorieren */ }
     }
 
     function escapeHtml(str) {
       return String(str).replace(/[&<>"']/g, (c) => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
       }[c]));
+    }
+
+    function haversineKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const toRad = (d) => (d * Math.PI) / 180;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function parseGermanDate(datum) {
+      const m = String(datum).match(/(\d{2})\.(\d{2})\.(\d{4})/);
+      if (!m) return null;
+      const d = new Date(Number(m[3]), Number(m[2]) - 1, Number(m[1]));
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+
+    function startOfDay(d) {
+      const c = new Date(d);
+      c.setHours(0, 0, 0, 0);
+      return c;
+    }
+
+    function dateRangeFor(zeitraum, von, bis) {
+      const today = startOfDay(new Date());
+      if (zeitraum === 'woche') {
+        const dow = today.getDay();
+        const diffToMonday = dow === 0 ? -6 : 1 - dow;
+        const monday = new Date(today);
+        monday.setDate(today.getDate() + diffToMonday);
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+        return { from: monday, to: sunday };
+      }
+      if (zeitraum === 'wochenende') {
+        const dow = today.getDay(); // 0=So..6=Sa
+        const diffToSaturday = dow === 6 ? 0 : dow === 0 ? -1 : 6 - dow;
+        const saturday = new Date(today);
+        saturday.setDate(today.getDate() + diffToSaturday);
+        const sunday = new Date(saturday);
+        sunday.setDate(saturday.getDate() + 1);
+        return { from: saturday, to: sunday };
+      }
+      if (zeitraum === '4wochen') {
+        const to = new Date(today);
+        to.setDate(today.getDate() + 28);
+        return { from: today, to };
+      }
+      if (zeitraum === 'custom') {
+        const from = von ? startOfDay(new Date(von)) : null;
+        const to = bis ? startOfDay(new Date(bis)) : null;
+        return { from, to };
+      }
+      return { from: null, to: null }; // "alle"
+    }
+
+    async function geocode(query) {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=de&q=${encodeURIComponent(query)}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Geocoding fehlgeschlagen (HTTP ' + res.status + ')');
+      const data = await res.json();
+      if (!data.length) throw new Error('Adresse nicht gefunden');
+      return { lat: Number(data[0].lat), lon: Number(data[0].lon) };
+    }
+
+    const els = {
+      meta: document.getElementById('meta'),
+      content: document.getElementById('content'),
+      ort: document.getElementById('ort'),
+      ortStatus: document.getElementById('ortStatus'),
+      radius: document.getElementById('radius'),
+      radiusValue: document.getElementById('radiusValue'),
+      zeitraum: document.getElementById('zeitraum'),
+      sortierung: document.getElementById('sortierung'),
+      customRange: document.getElementById('customRange'),
+      von: document.getElementById('von'),
+      bis: document.getElementById('bis'),
+      filterSummary: document.getElementById('filterSummary'),
+      resetBtn: document.getElementById('resetBtn'),
+    };
+
+    let data = null;
+    let home = null; // { query, lat, lon }
+
+    function loadSavedFilters() {
+      const savedHome = safeGet(STORAGE_KEYS.home);
+      if (savedHome) {
+        try {
+          home = JSON.parse(savedHome);
+          els.ort.value = home.query || '';
+          if (home.lat != null) {
+            els.ortStatus.textContent = `Gefunden: ${home.lat.toFixed(4)}, ${home.lon.toFixed(4)}`;
+            els.ortStatus.className = 'status-text ok';
+          }
+        } catch { home = null; }
+      }
+      els.radius.value = safeGet(STORAGE_KEYS.radius) || '30';
+      els.zeitraum.value = safeGet(STORAGE_KEYS.zeitraum) || 'alle';
+      els.sortierung.value = safeGet(STORAGE_KEYS.sortierung) || 'datum';
+      els.von.value = safeGet(STORAGE_KEYS.von) || '';
+      els.bis.value = safeGet(STORAGE_KEYS.bis) || '';
+      els.customRange.classList.toggle('visible', els.zeitraum.value === 'custom');
+      els.radiusValue.textContent = `${els.radius.value} km`;
+    }
+
+    async function resolveHome() {
+      const query = els.ort.value.trim();
+      if (!query) {
+        home = null;
+        safeRemove(STORAGE_KEYS.home);
+        els.ortStatus.textContent = '';
+        render();
+        return;
+      }
+      if (home && home.query === query && home.lat != null) {
+        render();
+        return; // schon aufgelöst, kein erneuter Request nötig
+      }
+      els.ortStatus.textContent = 'Suche Adresse…';
+      els.ortStatus.className = 'status-text';
+      try {
+        const coords = await geocode(query);
+        home = { query, ...coords };
+        safeSet(STORAGE_KEYS.home, JSON.stringify(home));
+        els.ortStatus.textContent = `Gefunden: ${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)}`;
+        els.ortStatus.className = 'status-text ok';
+      } catch (err) {
+        home = null;
+        safeRemove(STORAGE_KEYS.home);
+        els.ortStatus.textContent = err.message;
+        els.ortStatus.className = 'status-text error';
+      }
+      render();
+    }
+
+    function currentFilters() {
+      return {
+        zeitraum: els.zeitraum.value,
+        sortierung: els.sortierung.value,
+        von: els.von.value,
+        bis: els.bis.value,
+        radiusKm: Number(els.radius.value),
+      };
+    }
+
+    function render() {
+      if (!data) return;
+      const { zeitraum, sortierung, von, bis, radiusKm } = currentFilters();
+      const { from, to } = dateRangeFor(zeitraum, von, bis);
+
+      let games = data.openGames.map((g) => {
+        const hall = data.hallen[g.ort] || null;
+        let distanceKm = null;
+        if (home && hall && hall.lat != null && hall.lon != null) {
+          distanceKm = haversineKm(home.lat, home.lon, hall.lat, hall.lon);
+        }
+        return { ...g, hall, distanceKm };
+      });
+
+      let filteredOutByDate = 0;
+      if (from || to) {
+        games = games.filter((g) => {
+          const d = parseGermanDate(g.datum);
+          if (!d) return true; // unbekanntes Datum lieber zeigen als verstecken
+          if (from && d < from) return false;
+          if (to && d > to) return false;
+          return true;
+        });
+      }
+
+      let filteredOutByRadius = 0;
+      if (home) {
+        const total = games.length;
+        games = games.filter((g) => g.distanceKm == null || g.distanceKm <= radiusKm);
+        filteredOutByRadius = total - games.length;
+      }
+
+      games.sort((a, b) => {
+        if (sortierung === 'entfernung') {
+          if (a.distanceKm == null && b.distanceKm == null) return 0;
+          if (a.distanceKm == null) return 1;
+          if (b.distanceKm == null) return -1;
+          if (a.distanceKm !== b.distanceKm) return a.distanceKm - b.distanceKm;
+        }
+        const da = parseGermanDate(a.datum);
+        const db = parseGermanDate(b.datum);
+        if (da && db && da.getTime() !== db.getTime()) return da - db;
+        return (a.zeit || '').localeCompare(b.zeit || '');
+      });
+
+      const summaryParts = [];
+      if (filteredOutByRadius > 0) summaryParts.push(`${filteredOutByRadius} außerhalb des Radius ausgeblendet`);
+      els.filterSummary.textContent = summaryParts.join(' · ');
+
+      els.meta.textContent =
+        `Stand: ${new Date(data.generatedAt).toLocaleString('de-DE')} · ${games.length} von ${data.openGames.length} offenen Spielen angezeigt · ` +
+        `${data.weeksScanned} Wochen gescannt (${data.totalGamesSeen} Spiele insgesamt gesehen)`;
+
+      if (!games.length) {
+        els.content.innerHTML = '<div class="empty">Keine Spiele für die aktuelle Filterauswahl gefunden.</div>';
+        return;
+      }
+
+      const groups = new Map();
+      for (const g of games) {
+        const key = `${g.tag} ${g.datum}`.trim();
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(g);
+      }
+
+      let html = '';
+      for (const [day, dayGames] of groups) {
+        html += `<div class="day-group"><div class="day-heading">${escapeHtml(day)}</div>`;
+        for (const g of dayGames) {
+          const hallLabel = g.hall
+            ? `${escapeHtml(g.hall.name || '')}${g.hall.address ? ' · ' + escapeHtml(g.hall.address) : ''}`
+            : (g.ort ? `Halle ${escapeHtml(g.ort)}` : '');
+          const distanceHtml =
+            g.distanceKm != null
+              ? `<div class="game-distance"><span class="km">${g.distanceKm.toFixed(0)} km</span>Luftlinie</div>`
+              : home
+              ? `<div class="game-distance">Entfernung<br>unbekannt</div>`
+              : '';
+          html += `
+            <div class="game">
+              <div class="game-main">
+                <div class="game-time">${escapeHtml(g.zeit || '')}</div>
+                <div class="game-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${escapeHtml(g.staffel)}</div>
+                <div class="game-teams">${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
+                ${hallLabel ? `<div class="game-hall">${hallLabel}</div>` : ''}
+              </div>
+              ${distanceHtml}
+            </div>`;
+        }
+        html += '</div>';
+      }
+      els.content.innerHTML = html;
+    }
+
+    function bindEvents() {
+      let ortTimer = null;
+      els.ort.addEventListener('input', () => {
+        clearTimeout(ortTimer);
+        ortTimer = setTimeout(resolveHome, 800);
+      });
+      els.ort.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { clearTimeout(ortTimer); resolveHome(); }
+      });
+
+      els.radius.addEventListener('input', () => {
+        els.radiusValue.textContent = `${els.radius.value} km`;
+        safeSet(STORAGE_KEYS.radius, els.radius.value);
+        render();
+      });
+
+      els.zeitraum.addEventListener('change', () => {
+        els.customRange.classList.toggle('visible', els.zeitraum.value === 'custom');
+        safeSet(STORAGE_KEYS.zeitraum, els.zeitraum.value);
+        render();
+      });
+
+      els.sortierung.addEventListener('change', () => {
+        safeSet(STORAGE_KEYS.sortierung, els.sortierung.value);
+        render();
+      });
+
+      els.von.addEventListener('change', () => { safeSet(STORAGE_KEYS.von, els.von.value); render(); });
+      els.bis.addEventListener('change', () => { safeSet(STORAGE_KEYS.bis, els.bis.value); render(); });
+
+      els.resetBtn.addEventListener('click', () => {
+        for (const key of Object.values(STORAGE_KEYS)) safeRemove(key);
+        home = null;
+        els.ort.value = '';
+        els.ortStatus.textContent = '';
+        loadSavedFilters();
+        render();
+      });
+    }
+
+    async function load() {
+      try {
+        const res = await fetch('data.json?_=' + Date.now());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        data = await res.json();
+        if (!data.hallen) data.hallen = {};
+        loadSavedFilters();
+        bindEvents();
+        render();
+      } catch (err) {
+        els.content.innerHTML = `<div class="error">Fehler beim Laden der Daten: ${escapeHtml(err.message)}</div>`;
+        els.meta.textContent = '';
+      }
     }
 
     load();

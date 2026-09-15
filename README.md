@@ -11,18 +11,33 @@ Quelle: https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/regio
 1. `scraper/scrape.mjs` (Node.js + Playwright) klickt sich durch die
    Wochenansicht der Seite (die Navigation läuft dort über Klicks, nicht
    über die URL) und liest die Spieltabelle für die nächsten
-   `WEEKS_AHEAD` Wochen (Standard: 9) aus.
+   `WEEKS_AHEAD` Wochen (Standard: 42, also ungefähr die ganze Saison bis
+   Ende Juni) aus.
 2. Ein Spiel gilt als **offen**, wenn:
    - die Schiedsrichter-Spalte leer ist,
    - das Spiel noch nicht gespielt wurde (kein Ergebnis),
+   - ein Termin feststeht (Spiele mit „Termin offen" werden ausgeschlossen),
    - die Altersklasse einen Schiedsrichter benötigt (ab C-Jugend
      aufwärts sowie Erwachsene/Senioren – D-/E-/F-Jugend werden
      ausgeschlossen),
-   - es kein reines Vereins-Event/Freundschaftsturnier ist.
-3. Das Ergebnis landet in `docs/data.json`, `docs/index.html` zeigt es an.
-4. Ein GitHub-Actions-Workflow (`.github/workflows/scrape.yml`) führt den
+   - es kein reines Vereins-Event/Freundschaftsturnier oder Minihandball ist,
+   - die Liga nicht Verbandsliga (VL), Oberliga (OL) oder Regionalliga (RL)
+     ist (diese pfeift der Nutzer grundsätzlich nicht; Regionsoberliga/ROL
+     bleibt bewusst drin).
+3. Für jede offene Halle (Spalte „Ort") wird zusätzlich einmalig die
+   Adresse über die Hallensuche der nuLiga-Seite aufgelöst und per
+   [Nominatim](https://nominatim.openstreetmap.org/) geokodiert. Das
+   Ergebnis landet dauerhaft in `scraper/hallen-cache.json` (wird
+   committet), damit spätere Läufe bereits bekannte Hallen nicht erneut
+   anfragen müssen.
+4. Das Ergebnis landet in `docs/data.json` (offene Spiele + Hallendaten),
+   `docs/index.html` zeigt es an – mit Filtern für Zeitraum
+   (Woche/Wochenende/eigener Zeitraum) und einer Radius-Suche (eigener
+   Standort + Umkreis in km, Luftlinie über die geokodierten
+   Hallenkoordinaten).
+5. Ein GitHub-Actions-Workflow (`.github/workflows/scrape.yml`) führt den
    Scraper alle 6 Stunden automatisch aus und committet die aktualisierten
-   Daten.
+   Daten (inkl. Hallen-Cache).
 
 ## Einmalige Einrichtung
 
@@ -44,6 +59,14 @@ sind fix (13 Spalten nach Auflösung von `colspan`), aber Liga und
 Altersklasse stehen in einer gemeinsamen Zelle (z.B. `"ReK WJF"`).
 `scraper/scrape.mjs` ist gegen diese Struktur getestet (inkl. Zeitumstellung
 und vereinzelten Sonderfällen wie „Termin offen"-Spielen).
+
+Hallenadressen werden über ein simples GET auf `locationSearch` mit dem
+in der Spielplan-Tabelle sichtbaren Hallen-Code (Spalte „Ort") aufgelöst
+(`resolveHallAddress` in `scraper/scrape.mjs`) – das liefert direkt Name
+und Anschrift, ohne durchs Suchformular klicken zu müssen. Ortsteil-Zusätze
+wie „(OT Mitte)" werden vor dem Geokodieren entfernt (verwirren Nominatim);
+schlägt die volle Adresse trotzdem fehl, wird ersatzweise nur auf
+PLZ+Ort geokodiert (`geocodeHall`).
 
 Die Seite antwortet gelegentlich mit einer WebObjects-Fehlerseite
 ("Fehler: Wert fehlt") statt der erwarteten Wochenansicht; der Scraper
