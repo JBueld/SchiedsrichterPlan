@@ -154,6 +154,40 @@
     gap: 10px;
     align-items: flex-start;
   }
+  .game.clickable { cursor: pointer; }
+  .game.clickable:active { background: var(--chip-bg); }
+  .game.expanded {
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 0;
+  }
+  .hall-hint {
+    display: block;
+    margin-top: 4px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .hall-expand {
+    background: var(--chip-bg);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    margin-bottom: 8px;
+    padding: 8px 14px;
+  }
+  .hall-expand-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .hall-expand-item {
+    font-size: 0.82rem;
+    padding: 6px 0;
+    border-top: 1px solid var(--border);
+  }
+  .hall-expand-item:first-of-type { border-top: none; }
+  .hall-expand-item .hei-when { font-weight: 600; }
+  .hall-expand-item .hei-league { color: var(--muted); font-size: 0.75rem; }
   .game-main { min-width: 0; }
   .game-time {
     font-weight: 600;
@@ -172,6 +206,10 @@
     margin-top: 5px;
     font-size: 0.78rem;
     color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
   }
   .game-distance {
     flex: 0 0 auto;
@@ -285,10 +323,18 @@
     cursor: pointer;
     font-size: 0.85rem;
   }
-  .route-link {
-    color: var(--accent);
+  .route-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--accent);
+    color: #fff;
     text-decoration: none;
     font-weight: 600;
+    font-size: 0.76rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
   }
   .view-toggle {
     display: flex;
@@ -550,6 +596,18 @@
       return c;
     }
 
+    function formatWhen(g) {
+      const dayDate = [g.tag, g.datum].filter(Boolean).join(' ');
+      return [dayDate, g.zeit].filter(Boolean).join(' · ');
+    }
+
+    function compareByDateTime(a, b) {
+      const da = parseGermanDate(a.datum);
+      const db = parseGermanDate(b.datum);
+      if (da && db && da.getTime() !== db.getTime()) return da - db;
+      return (a.zeit || '').localeCompare(b.zeit || '');
+    }
+
     function dateRangeFor(zeitraum, von, bis) {
       const today = startOfDay(new Date());
       if (zeitraum === 'woche') {
@@ -629,6 +687,7 @@
     let leafletMap = null;
     let markersLayer = null;
     let deferredInstallPrompt = null;
+    let hallIndex = new Map(); // ort -> alle offenen Spiele in dieser Halle (ungefiltert)
 
     function renderLigaChips() {
       els.ligaChips.innerHTML = LIGA_CODES.map((code) => {
@@ -735,6 +794,41 @@
         map.fitBounds(bounds, { padding: [30, 30], maxZoom: 12 });
       }
       setTimeout(() => map.invalidateSize(), 50);
+    }
+
+    function toggleHallExpand(card) {
+      const existing = card.nextElementSibling;
+      if (existing && existing.classList.contains('hall-expand')) {
+        existing.remove();
+        card.classList.remove('expanded');
+        return;
+      }
+      document.querySelectorAll('.hall-expand').forEach((el) => el.remove());
+      document.querySelectorAll('.game.expanded').forEach((el) => el.classList.remove('expanded'));
+
+      const ort = card.dataset.ort;
+      const idx = Number(card.dataset.idx);
+      const others = (hallIndex.get(ort) || [])
+        .filter((g) => g._idx !== idx)
+        .sort(compareByDateTime);
+      if (!others.length) return;
+
+      const itemsHtml = others
+        .map(
+          (g) => `
+            <div class="hall-expand-item">
+              <div class="hei-when">${escapeHtml(formatWhen(g))}</div>
+              <div class="hei-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${escapeHtml(g.staffel)}</div>
+              <div>${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
+            </div>`
+        )
+        .join('');
+
+      const div = document.createElement('div');
+      div.className = 'hall-expand';
+      div.innerHTML = `<div class="hall-expand-title">Weitere offene Spiele in dieser Halle</div>${itemsHtml}`;
+      card.insertAdjacentElement('afterend', div);
+      card.classList.add('expanded');
     }
 
     function setView(view) {
@@ -884,6 +978,17 @@
         return { ...g, hall, distanceKm };
       });
 
+      // Für die "weitere Spiele in dieser Halle"-Ausklappung: ungefiltert
+      // über ALLE offenen Spiele indizieren (nicht nur die aktuell
+      // sichtbaren), damit auch Spiele auffindbar sind, die z.B. durch den
+      // Uhrzeit- oder Liga-Filter gerade ausgeblendet sind.
+      hallIndex = new Map();
+      for (const g of games) {
+        if (!g.ort) continue;
+        if (!hallIndex.has(g.ort)) hallIndex.set(g.ort, []);
+        hallIndex.get(g.ort).push(g);
+      }
+
       if (from || to) {
         games = games.filter((g) => {
           const d = parseGermanDate(g.datum);
@@ -947,10 +1052,7 @@
           if (b.distanceKm == null) return -1;
           if (a.distanceKm !== b.distanceKm) return a.distanceKm - b.distanceKm;
         }
-        const da = parseGermanDate(a.datum);
-        const db = parseGermanDate(b.datum);
-        if (da && db && da.getTime() !== db.getTime()) return da - db;
-        return (a.zeit || '').localeCompare(b.zeit || '');
+        return compareByDateTime(a, b);
       });
 
       const summaryParts = [];
@@ -990,20 +1092,26 @@
           const hallLabel = g.hall
             ? `${escapeHtml(g.hall.name || '')}${g.hall.address ? ' · ' + escapeHtml(g.hall.address) : ''}`
             : (g.ort ? `Halle ${escapeHtml(g.ort)}` : '');
-          const routeHtml = link ? ` · <a class="route-link" href="${link}" target="_blank" rel="noopener">Route öffnen</a>` : '';
+          const routeHtml = link ? `<a class="route-btn" href="${link}" target="_blank" rel="noopener">🧭 Route</a>` : '';
           const distanceHtml =
             g.distanceKm != null
               ? `<div class="game-distance"><span class="km">${g.distanceKm.toFixed(0)} km</span>Luftlinie</div>`
               : home
               ? `<div class="game-distance">Entfernung<br>unbekannt</div>`
               : '';
+          const otherCount = g.ort ? (hallIndex.get(g.ort) || []).filter((o) => o._idx !== g._idx).length : 0;
+          const hintHtml =
+            otherCount > 0
+              ? `<span class="hall-hint">▸ +${otherCount} weitere${otherCount === 1 ? 's' : ''} Spiel${otherCount === 1 ? '' : 'e'} in dieser Halle</span>`
+              : '';
           html += `
-            <div class="game">
+            <div class="game${otherCount > 0 ? ' clickable' : ''}" data-ort="${escapeHtml(g.ort || '')}" data-idx="${g._idx}">
               <div class="game-main">
-                <div class="game-time">${escapeHtml(g.zeit || '')}</div>
+                <div class="game-time">${escapeHtml(formatWhen(g))}</div>
                 <div class="game-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${escapeHtml(g.staffel)}</div>
                 <div class="game-teams">${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
-                ${hallLabel ? `<div class="game-hall">${hallLabel}${routeHtml}</div>` : ''}
+                ${hallLabel ? `<div class="game-hall"><span>${hallLabel}</span>${routeHtml}</div>` : ''}
+                ${hintHtml}
               </div>
               ${distanceHtml}
             </div>`;
@@ -1014,6 +1122,13 @@
     }
 
     function bindEvents() {
+      els.content.addEventListener('click', (e) => {
+        if (e.target.closest('a, button')) return; // Route-Button etc. nicht abfangen
+        const card = e.target.closest('.game.clickable');
+        if (!card) return;
+        toggleHallExpand(card);
+      });
+
       let ortTimer = null;
       els.ort.addEventListener('input', () => {
         clearTimeout(ortTimer);
@@ -1078,6 +1193,7 @@
         if (!res.ok) throw new Error('HTTP ' + res.status);
         data = await res.json();
         if (!data.hallen) data.hallen = {};
+        data.openGames.forEach((g, i) => { g._idx = i; });
         loadSavedFilters();
         bindEvents();
         render();
