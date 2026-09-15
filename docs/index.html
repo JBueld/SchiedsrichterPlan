@@ -821,8 +821,9 @@
 
       const ort = card.dataset.ort;
       const idx = Number(card.dataset.idx);
+      const datum = card.dataset.datum;
       const others = (hallIndex.get(ort) || [])
-        .filter((g) => g._idx !== idx)
+        .filter((g) => g._idx !== idx && g.datum === datum)
         .sort(compareByDateTime);
       if (!others.length) return;
 
@@ -830,7 +831,7 @@
         .map(
           (g) => `
             <div class="hall-expand-item">
-              <div class="hei-when">${escapeHtml(formatWhen(g))}</div>
+              <div class="hei-when">${escapeHtml(g.zeit || formatWhen(g))}</div>
               <div class="hei-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${staffelHtml(g)}</div>
               <div>${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
             </div>`
@@ -839,7 +840,7 @@
 
       const div = document.createElement('div');
       div.className = 'hall-expand';
-      div.innerHTML = `<div class="hall-expand-title">Weitere offene Spiele in dieser Halle</div>${itemsHtml}`;
+      div.innerHTML = `<div class="hall-expand-title">Weitere offene Spiele in dieser Halle am selben Tag</div>${itemsHtml}`;
       card.insertAdjacentElement('afterend', div);
       card.classList.add('expanded');
     }
@@ -1112,13 +1113,15 @@
               : home
               ? `<div class="game-distance">Entfernung<br>unbekannt</div>`
               : '';
-          const otherCount = g.ort ? (hallIndex.get(g.ort) || []).filter((o) => o._idx !== g._idx).length : 0;
+          const otherCount = g.ort
+            ? (hallIndex.get(g.ort) || []).filter((o) => o._idx !== g._idx && o.datum === g.datum).length
+            : 0;
           const hintHtml =
             otherCount > 0
-              ? `<span class="hall-hint">▸ +${otherCount} weitere${otherCount === 1 ? 's' : ''} Spiel${otherCount === 1 ? '' : 'e'} in dieser Halle</span>`
+              ? `<span class="hall-hint">▸ +${otherCount} weitere${otherCount === 1 ? 's' : ''} Spiel${otherCount === 1 ? '' : 'e'} in dieser Halle am selben Tag</span>`
               : '';
           html += `
-            <div class="game${otherCount > 0 ? ' clickable' : ''}" data-ort="${escapeHtml(g.ort || '')}" data-idx="${g._idx}">
+            <div class="game${otherCount > 0 ? ' clickable' : ''}" data-ort="${escapeHtml(g.ort || '')}" data-idx="${g._idx}" data-datum="${escapeHtml(g.datum || '')}">
               <div class="game-main">
                 <div class="game-time">${escapeHtml(formatWhen(g))}</div>
                 <div class="game-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${staffelHtml(g)}</div>
