@@ -16,7 +16,8 @@
 // Heimmannschaft, Gastmannschaft, dann Ergebnis-ODER-Schiedsrichter + Reserve.
 // Tag/Datum sind nur in der ersten Zeile eines Tages gefüllt (Folgezeilen leer).
 // Bei Spielen ohne Termin ("Termin offen") verschmelzen Tag+Datum per colspan=2
-// zu einer Zelle.
+// zu einer Zelle. Die Staffel-Zelle verlinkt auf die groupPage (Liga-/
+// Staffel-Übersicht samt Tabelle) - der Link wird als staffelUrl mit erfasst.
 //
 // Die nuLiga-Seite antwortet vereinzelt mit einer Fehlerseite ("Fehler: Wert
 // fehlt") statt der erwarteten Wochenansicht; navigateToWeek() erkennt das und
@@ -170,16 +171,29 @@ function splitLigaAltersklasse(cell) {
   return { liga: cell.slice(0, idx), altersklasse: cell.slice(idx + 1).toUpperCase() };
 }
 
+// Zellen kommen entweder als reiner String (z.B. aus Test-Fixtures) oder als
+// {text, href} (aus scrapeCurrentTable, wenn die Zelle einen Link enthält).
+function cellText(c) {
+  return (typeof c === 'string' ? c : c.text || '').trim();
+}
+function cellHref(c) {
+  return typeof c === 'string' ? null : c.href || null;
+}
+
+const SITE_ORIGIN = 'https://hvnb-handball.liga.nu';
+
 function extractRows(cellRows) {
   const games = [];
   let currentTag = '';
   let currentDatum = '';
 
   for (const cells of cellRows) {
-    const trimmed = cells.map((c) => c.trim());
+    const trimmed = cells.map(cellText);
     if (trimmed.length !== TABLE_COLUMNS) continue; // Fremdzeilen (z.B. Fehlerseiten) überspringen
 
     let [tag, datum, zeit, ort, , ligaCell, staffel, heim, gast, ...rest] = trimmed;
+    const staffelHref = cellHref(cells[6]);
+    const staffelUrl = staffelHref ? `${SITE_ORIGIN}${staffelHref}` : null;
 
     // Die Zeit-Zelle enthält bei manchen Spielen noch ein Icon/Hinweis-Suffix
     // (z.B. "16:00\n            \n             v" für "verlegt"). Nur die
@@ -218,6 +232,7 @@ function extractRows(cellRows) {
       liga,
       altersklasse,
       staffel,
+      staffelUrl,
       heim,
       gast,
       ergebnis,
@@ -231,12 +246,16 @@ async function scrapeCurrentTable(page) {
   // Zellen einsammeln und dabei colspan auflösen, damit Zeilen wie
   // "Termin offen" (Tag+Datum in einer Zelle) auf die volle Spaltenzahl
   // aufgefüllt werden und nicht die nachfolgenden Spalten verschieben.
+  // Die Staffel-Zelle verlinkt zusätzlich auf die groupPage (Liga-/
+  // Staffel-Übersicht inkl. Tabelle) - dieser Link wird mit erfasst.
   const rows = await page.$$eval('table tr', (trs) =>
     trs.map((tr) => {
       const out = [];
       for (const td of tr.querySelectorAll('td,th')) {
         const text = (td.textContent || '').trim();
-        for (let i = 0; i < td.colSpan; i++) out.push(text);
+        const groupLink = td.querySelector('a[href*="groupPage"]');
+        const href = groupLink ? groupLink.getAttribute('href') : null;
+        for (let i = 0; i < td.colSpan; i++) out.push({ text, href });
       }
       return out;
     })

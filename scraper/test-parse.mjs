@@ -15,8 +15,9 @@ const sampleRows = [
   ['Tag', 'Datum', 'Zeit', 'Ort', 'Nr.', 'Liga', 'Staffel', 'Heimmannschaft', 'Gastmannschaft', '', '', '', ''],
   // Mo 14.09.2026 - F-Jugend, kein SR nötig, Spiel bereits gelaufen -> NICHT offen
   // Zeit-Zelle mit Icon-Suffix ("verlegt"-Hinweis) wie auf der echten Seite -
-  // muss auf die reine Uhrzeit gekürzt werden.
-  ['Mo', '14.09.2026', '16:00\n            \n             v', '809108', '1', 'ReK WJF', 'WJF VR-5', 'TV Dinklage II', 'TV Dinklage', '0:16', '', '', ''],
+  // muss auf die reine Uhrzeit gekürzt werden. Staffel-Zelle als {text,href}-
+  // Objekt wie von scrapeCurrentTable geliefert (verlinkt auf die groupPage).
+  ['Mo', '14.09.2026', '16:00\n            \n             v', '809108', '1', 'ReK WJF', { text: 'WJF VR-5', href: '/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=488956' }, 'TV Dinklage II', 'TV Dinklage', '0:16', '', '', ''],
   // gleiche Tageszeile fortgesetzt (Tag/Datum leer) - C-Jugend, kein SR-Eintrag -> offen
   ['', '', '16:15', '809140', '3', 'LL MJC', 'Landesliga MJC', 'FC Schüttorf 09', 'HSG Grönegau-Melle', '', '', '', ''],
   // Erwachsene, SR bereits angesetzt -> NICHT offen
@@ -40,6 +41,12 @@ for (const g of games) console.log(' -', g.datum, g.zeit, g.liga, g.altersklasse
 assert.equal(games.length, 8, 'Es sollten 8 Spielzeilen erkannt werden');
 assert.equal(games[0].ort, '809108', 'Der Ort-Code (Hallennummer) muss erfasst werden');
 assert.equal(games[0].zeit, '16:00', 'Icon-Suffix in der Zeit-Zelle muss entfernt werden');
+assert.equal(
+  games[0].staffelUrl,
+  'https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=488956',
+  'Der groupPage-Link aus der Staffel-Zelle muss zu einer absoluten URL werden'
+);
+assert.equal(games[1].staffelUrl, null, 'Ohne Link-Objekt (reiner String) muss staffelUrl null sein');
 
 const open = games.filter(isOpen);
 console.log('\nOffene Spiele:', open.length);

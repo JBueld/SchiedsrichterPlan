@@ -37,7 +37,10 @@ Quelle: https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/regio
    Regionsliga/Regionsoberliga einzeln abwählbar), ausblendbaren Vereinen
    (z.B. wegen Befangenheit) und einer Radius-Suche (eigener Standort +
    Umkreis in km, Luftlinie über die geokodierten Hallenkoordinaten). Alle
-   Filter werden lokal im Browser gespeichert.
+   Filter werden lokal im Browser gespeichert. Jedes Spiel verlinkt außerdem
+   auf seine Staffel-Seite bei nuLiga (Tabelle + Spielplan der Liga-Gruppe)
+   sowie auf eine aufklappbare Liste weiterer offener Spiele in derselben
+   Halle.
 5. Neben der Listenansicht gibt es eine **Kartenansicht** (Leaflet +
    OpenStreetMap) mit einem Marker pro Halle; jeder Marker zeigt die dort
    noch offenen Spiele. Jedes Spiel (Liste wie Karte) hat außerdem einen

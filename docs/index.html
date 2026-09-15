@@ -198,6 +198,11 @@
     font-size: 0.78rem;
     margin-top: 2px;
   }
+  .staffel-link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+  }
   .game-teams {
     margin-top: 5px;
     font-size: 0.92rem;
@@ -601,6 +606,14 @@
       return [dayDate, g.zeit].filter(Boolean).join(' · ');
     }
 
+    function staffelHtml(g) {
+      const label = escapeHtml(g.staffel || '');
+      if (!label) return '';
+      return g.staffelUrl
+        ? `<a href="${escapeHtml(g.staffelUrl)}" target="_blank" rel="noopener" class="staffel-link">${label}</a>`
+        : label;
+    }
+
     function compareByDateTime(a, b) {
       const da = parseGermanDate(a.datum);
       const db = parseGermanDate(b.datum);
@@ -766,7 +779,7 @@
           .map(
             (g) =>
               `<div style="margin-bottom:4px;"><b>${escapeHtml(g.tag)} ${escapeHtml(g.datum)} ${escapeHtml(g.zeit)}</b><br>` +
-              `${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)}<br>${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>`
+              `${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${staffelHtml(g)}<br>${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>`
           )
           .join('');
         const more = hallGames.length > shown.length ? `<div>… und ${hallGames.length - shown.length} weitere</div>` : '';
@@ -818,7 +831,7 @@
           (g) => `
             <div class="hall-expand-item">
               <div class="hei-when">${escapeHtml(formatWhen(g))}</div>
-              <div class="hei-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${escapeHtml(g.staffel)}</div>
+              <div class="hei-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${staffelHtml(g)}</div>
               <div>${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
             </div>`
         )
@@ -1108,7 +1121,7 @@
             <div class="game${otherCount > 0 ? ' clickable' : ''}" data-ort="${escapeHtml(g.ort || '')}" data-idx="${g._idx}">
               <div class="game-main">
                 <div class="game-time">${escapeHtml(formatWhen(g))}</div>
-                <div class="game-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${escapeHtml(g.staffel)}</div>
+                <div class="game-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${staffelHtml(g)}</div>
                 <div class="game-teams">${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
                 ${hallLabel ? `<div class="game-hall"><span>${hallLabel}</span>${routeHtml}</div>` : ''}
                 ${hintHtml}
