@@ -1,17 +1,31 @@
 // Scrapt den Regionsspielplan (nuLiga/WebObjects) des HVNB und findet Spiele,
 // die noch keine Schiedsrichter-Ansetzung haben.
 //
-// WICHTIG: Diese alte nuLiga-Seite hat keine saubere API. Die Navigation
-// (Monat/Woche-Auswahl) läuft über Klicks, nicht über GET-Parameter in der
-// URL. Die Selektoren unten basieren auf zwei PDF-Exporten der Seite, nicht
-// auf der echten Live-DOM-Struktur (die Sandbox, in der dieses Skript
-// geschrieben wurde, hatte keinen Netzwerkzugriff auf die Seite). Bei DEBUG=1
-// wird nach jedem Seitenaufruf ein HTML-Snapshot unter debug/ abgelegt, damit
-// sich die Selektoren bei Bedarf schnell nachjustieren lassen.
+// Navigation: Die Wochenansicht wird über zwei Radio-Gruppen im Filterformular
+// gesteuert (kein Link-Markup, wie ursprünglich angenommen):
+//   <input type="radio" name="month" value="0-11">        (0=Januar ... 11=Dezember)
+//   <input type="radio" name="dayOfYear" value="N">        (Kalendertag-des-Jahres des
+//                                                            Montags der jeweiligen Woche)
+// Ein Klick löst "this.form.submit()" aus (volle Seitennavigation, kein AJAX).
+// Die Radios sind visuell versteckt (eigenes Styling), weshalb Playwrights
+// normale .click()-Aktionierbarkeitsprüfung ("outside viewport") fehlschlägt;
+// wir klicken sie daher direkt im DOM per $eval an.
+//
+// Tabellenstruktur: Jede Zeile hat fix 13 Spalten (nach Auflösung von colspan):
+// Tag, Datum, Zeit, Ort, Nr., "Liga Altersklasse" (eine Zelle!), Staffel,
+// Heimmannschaft, Gastmannschaft, dann Ergebnis-ODER-Schiedsrichter + Reserve.
+// Tag/Datum sind nur in der ersten Zeile eines Tages gefüllt (Folgezeilen leer).
+// Bei Spielen ohne Termin ("Termin offen") verschmelzen Tag+Datum per colspan=2
+// zu einer Zelle.
+//
+// Die nuLiga-Seite antwortet vereinzelt mit einer Fehlerseite ("Fehler: Wert
+// fehlt") statt der erwarteten Wochenansicht; navigateToWeek() erkennt das und
+// versucht es nach einem Neuladen erneut.
 
 import { chromium } from 'playwright';
 import { writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const BASE_URL =
   'https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/regionMeetingFilter?championship=HRWN+26%2F27';
@@ -21,11 +35,6 @@ const DEBUG = process.env.DEBUG === '1';
 const OUTPUT_FILE = path.join('docs', 'data.json');
 const DEBUG_DIR = 'debug';
 
-const GERMAN_MONTHS = [
-  'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-  'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
-];
-
 // Altersklassen, die laut Regelwerk KEINEN Schiedsrichter benötigen
 // (D-/E-/F-Jugend). Alles andere (C-/B-/A-Jugend, Erwachsene, Senioren)
 // braucht laut Nutzerangabe eine Ansetzung.
@@ -33,11 +42,11 @@ const NO_REFEREE_NEEDED = new Set([
   'WJF', 'MJF', 'WJE', 'MJE', 'WJD', 'MJD',
 ]);
 
-// Bekannte Liga-Kürzel, wie sie in der ersten Spalte nach der Spielnummer
-// auftauchen (ReK, LL, ROL, ReL, OL, VL, RL). "Vereins-Event" markiert
-// Freundschaftsturniere, die nicht offiziell angesetzt werden.
-const LIGA_CODES = ['ReK', 'LL', 'ROL', 'ReL', 'OL', 'VL', 'RL'];
-const EXCLUDE_LIGA = ['Vereins-Event'];
+// "Vereins-Event"/"VE" markiert Freundschaftsturniere, die nicht offiziell
+// angesetzt werden. "Mini" (Minihandball) braucht ebenfalls keinen SR.
+const EXCLUDE_LIGA = new Set(['Vereins-Event', 'VE', 'Mini']);
+
+const TABLE_COLUMNS = 13;
 
 function mondaysAhead(count) {
   const today = new Date();
@@ -57,6 +66,16 @@ function mondaysAhead(count) {
   return mondays;
 }
 
+// Tag-des-Jahres, wie ihn das "dayOfYear"-Radio im Wochenformular erwartet.
+// Rein über Date.UTC() berechnet, damit der Sommer-/Winterzeit-Wechsel
+// (CET/CEST) keine Off-by-one-Fehler verursacht (lokale Date-Subtraktion
+// verliert an der Umstellung eine Stunde).
+function dayOfYear(date) {
+  const utcStart = Date.UTC(date.getFullYear(), 0, 1);
+  const utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+  return Math.round((utcDate - utcStart) / 86400000) + 1;
+}
+
 async function dumpDebug(page, label) {
   if (!DEBUG) return;
   await mkdir(DEBUG_DIR, { recursive: true });
@@ -69,32 +88,59 @@ async function dumpDebug(page, label) {
   }
 }
 
+async function clickRadioAndWait(page, selector) {
+  // Die Radios sind für Sichtprüfungen "outside viewport" (eigenes CSS-Styling),
+  // daher direkt im DOM klicken statt page.locator(...).click() zu verwenden.
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'networkidle' }),
+    page.$eval(selector, (el) => el.click()),
+  ]);
+}
+
+async function isHealthyCalendarPage(page) {
+  return (await page.$('input[name="month"]')) !== null;
+}
+
 async function navigateToWeek(page, monday) {
-  const monthName = GERMAN_MONTHS[monday.getMonth()];
-  const dayNumber = String(monday.getDate());
+  const monthValue = String(monday.getMonth());
+  const targetDay = String(dayOfYear(monday));
+  const label = monday.toISOString().slice(0, 10);
 
-  // Monat auswählen, falls nicht schon aktiv.
-  const monthLink = page.getByRole('link', { name: monthName, exact: true });
-  if (await monthLink.count()) {
-    await monthLink.first().click();
-    await page.waitForLoadState('networkidle').catch(() => {});
-  }
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    const currentMonth = await page.$eval('input[name="month"]:checked', (el) => el.value).catch(() => null);
+    if (currentMonth !== monthValue) {
+      await clickRadioAndWait(page, `input[name="month"][value="${monthValue}"]`);
+    }
 
-  // Innerhalb des Wochen-Kalenders den passenden Tag (Montag) anklicken.
-  // Der Tag steht als reine Zahl da; wir suchen bevorzugt nach einem Link.
-  const dayCandidates = page.getByRole('link', { name: dayNumber, exact: true });
-  const count = await dayCandidates.count();
-  if (count === 0) {
-    throw new Error(`Kein anklickbarer Tag "${dayNumber}" (${monthName}) gefunden`);
+    const weekSelector = `input[name="dayOfYear"][value="${targetDay}"]`;
+    const weekRadio = await page.$(weekSelector);
+    if (!weekRadio) {
+      throw new Error(`Keine Woche mit dayOfYear=${targetDay} (Monat ${monthValue}) gefunden`);
+    }
+    const alreadyChecked = await page.$eval(weekSelector, (el) => el.checked);
+    if (!alreadyChecked) {
+      await clickRadioAndWait(page, weekSelector);
+    }
+
+    if (await isHealthyCalendarPage(page)) return;
+
+    // Seite antwortet gelegentlich mit einer WebObjects-Fehlerseite statt der
+    // Wochenansicht - neu laden und erneut versuchen.
+    console.warn(`  Woche ${label}: unerwartete Antwort (Versuch ${attempt}/3) - lade neu`);
+    await dumpDebug(page, `error-${label}-attempt${attempt}`);
+    await page.goto(BASE_URL, { waitUntil: 'networkidle' });
   }
-  // Bei mehreren Treffern (z.B. Überlauf-Tage vom Vor-/Folgemonat) den
-  // ersten sichtbaren nehmen - im Zweifel wird das per Debug-Snapshot sichtbar.
-  await dayCandidates.first().click();
-  await page.waitForLoadState('networkidle').catch(() => {});
+  throw new Error(`Woche ${label}: ließ sich nach mehreren Versuchen nicht laden`);
 }
 
 function parseScore(text) {
   return /^\d+\s*:\s*\d+$/.test(text.trim());
+}
+
+function splitLigaAltersklasse(cell) {
+  const idx = cell.indexOf(' ');
+  if (idx === -1) return { liga: cell, altersklasse: '' };
+  return { liga: cell.slice(0, idx), altersklasse: cell.slice(idx + 1).toUpperCase() };
 }
 
 function extractRows(cellRows) {
@@ -104,46 +150,25 @@ function extractRows(cellRows) {
 
   for (const cells of cellRows) {
     const trimmed = cells.map((c) => c.trim());
-    const rowText = trimmed.join(' | ');
+    if (trimmed.length !== TABLE_COLUMNS) continue; // Fremdzeilen (z.B. Fehlerseiten) überspringen
 
-    // Tag/Datum stehen wegen rowspan nur in der ersten Zeile eines Tages.
-    const datumMatch = rowText.match(/\b(\d{2})\.(\d{2})\.(\d{4})\b/);
-    const tagMatch = rowText.match(/\b(Mo|Di|Mi|Do|Fr|Sa|So)\b/);
-    if (datumMatch) currentDatum = datumMatch[0];
-    if (tagMatch) currentTag = tagMatch[0];
-    if (!currentDatum) continue; // noch keine Tageszeile gesehen -> Header o.ä.
+    let [tag, datum, zeit, , , ligaCell, staffel, heim, gast, ...rest] = trimmed;
 
-    // Liga-Code (und direkt danach die Altersklasse) suchen.
-    let ligaIdx = -1;
-    let liga = null;
-    for (let i = 0; i < trimmed.length; i++) {
-      if (LIGA_CODES.includes(trimmed[i]) || EXCLUDE_LIGA.includes(trimmed[i])) {
-        ligaIdx = i;
-        liga = trimmed[i];
-        break;
-      }
+    if (tag && tag === datum) {
+      // Verschmolzene Tag+Datum-Zelle (colspan=2), z.B. "Termin offen".
+      datum = tag;
+      tag = '';
     }
-    if (ligaIdx === -1) continue; // keine Spielzeile (z.B. leere/Kopfzeile)
+    if (tag) currentTag = tag;
+    if (datum) currentDatum = datum;
 
-    const ak = (trimmed[ligaIdx + 1] || '').toUpperCase();
-    const staffel = trimmed[ligaIdx + 2] || '';
-    const heim = trimmed[ligaIdx + 3] || '';
-    const gast = trimmed[ligaIdx + 4] || '';
+    if (!ligaCell || ligaCell === 'Liga' || !heim || !gast) continue; // Kopf-/Leerzeile
 
-    // Uhrzeit: erstes hh:mm-Muster VOR dem Liga-Code.
-    let zeit = '';
-    for (let i = 0; i < ligaIdx; i++) {
-      const m = trimmed[i].match(/\b\d{1,2}:\d{2}\b/);
-      if (m) {
-        zeit = m[0];
-        break;
-      }
-    }
+    const { liga, altersklasse } = splitLigaAltersklasse(ligaCell);
 
-    // Ergebnis/Schiedsrichter: alles nach Gastmannschaft.
     let ergebnis = '';
     let schiedsrichter = '';
-    for (const raw of trimmed.slice(ligaIdx + 5)) {
+    for (const raw of rest) {
       if (!raw) continue;
       if (parseScore(raw)) {
         ergebnis = raw;
@@ -152,14 +177,12 @@ function extractRows(cellRows) {
       }
     }
 
-    if (!heim || !gast) continue;
-
     games.push({
       tag: currentTag,
       datum: currentDatum,
       zeit,
       liga,
-      altersklasse: ak,
+      altersklasse,
       staffel,
       heim,
       gast,
@@ -171,15 +194,24 @@ function extractRows(cellRows) {
 }
 
 async function scrapeCurrentTable(page) {
-  // Alle Tabellenzeilen einsammeln und deren Zelltexte zurückgeben.
+  // Zellen einsammeln und dabei colspan auflösen, damit Zeilen wie
+  // "Termin offen" (Tag+Datum in einer Zelle) auf die volle Spaltenzahl
+  // aufgefüllt werden und nicht die nachfolgenden Spalten verschieben.
   const rows = await page.$$eval('table tr', (trs) =>
-    trs.map((tr) => Array.from(tr.querySelectorAll('td,th')).map((td) => td.textContent || ''))
+    trs.map((tr) => {
+      const out = [];
+      for (const td of tr.querySelectorAll('td,th')) {
+        const text = (td.textContent || '').trim();
+        for (let i = 0; i < td.colSpan; i++) out.push(text);
+      }
+      return out;
+    })
   );
   return extractRows(rows);
 }
 
 function isOpen(game) {
-  if (EXCLUDE_LIGA.includes(game.liga)) return false;
+  if (EXCLUDE_LIGA.has(game.liga)) return false;
   if (game.ergebnis) return false; // Spiel schon gelaufen
   if (game.schiedsrichter) return false; // schon angesetzt
   if (NO_REFEREE_NEEDED.has(game.altersklasse)) return false; // braucht keinen SR
@@ -192,7 +224,7 @@ function parseGermanDate(datum) {
   return new Date(Number(m[3]), Number(m[2]) - 1, Number(m[1]));
 }
 
-export { extractRows, isOpen, mondaysAhead, parseGermanDate };
+export { extractRows, isOpen, mondaysAhead, parseGermanDate, dayOfYear };
 
 async function main() {
   const browser = await chromium.launch();
@@ -252,7 +284,7 @@ async function main() {
   console.log(`Geschrieben: ${OUTPUT_FILE}`);
 }
 
-const isMain = process.argv[1] && import.meta.url === `file://${process.argv[1]}`;
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 if (isMain) {
   main().catch((err) => {
     console.error(err);
