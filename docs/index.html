@@ -200,22 +200,15 @@
     border-top: none;
     border-radius: 0 0 10px 10px;
     margin-bottom: 8px;
-    padding: 8px 14px;
+    padding: 10px 10px 2px;
   }
   .hall-expand-title {
     font-size: 0.75rem;
     font-weight: 600;
     color: var(--muted);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    padding: 0 4px;
   }
-  .hall-expand-item {
-    font-size: 0.82rem;
-    padding: 6px 0;
-    border-top: 1px solid var(--border);
-  }
-  .hall-expand-item:first-of-type { border-top: none; }
-  .hall-expand-item .hei-when { font-weight: 600; }
-  .hall-expand-item .hei-league { color: var(--muted); font-size: 0.75rem; }
   .game-main { min-width: 0; }
   .game-time {
     font-weight: 600;
@@ -356,18 +349,27 @@
     cursor: pointer;
     font-size: 0.85rem;
   }
-  .route-btn {
+  .route-btn, .cal-btn {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    background: var(--accent);
-    color: #fff;
     text-decoration: none;
     font-weight: 600;
     font-size: 0.76rem;
     padding: 4px 10px;
     border-radius: 999px;
     white-space: nowrap;
+    cursor: pointer;
+  }
+  .route-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+  }
+  .cal-btn {
+    background: var(--chip-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
   }
   .view-toggle {
     display: flex;
@@ -735,6 +737,7 @@
     let markersLayer = null;
     let deferredInstallPrompt = null;
     let hallIndex = new Map(); // ort -> alle offenen Spiele in dieser Halle (ungefiltert)
+    let gamesByIdx = new Map(); // _idx -> Spiel inkl. hall/distanceKm (für den Kalender-Export)
 
     function renderLigaChips() {
       els.ligaChips.innerHTML = LIGA_CODES.map((code) => {
@@ -843,6 +846,46 @@
       setTimeout(() => map.invalidateSize(), 50);
     }
 
+    // Baut die HTML-Karte für ein Spiel - wird sowohl für die Hauptliste als
+    // auch für die "weitere Spiele in dieser Halle"-Ausklappung verwendet,
+    // damit dort exakt dieselbe (vollständige) Kartenansicht erscheint statt
+    // einer abgespeckten Textzeile.
+    function renderGameCard(g, { allowExpand = true } = {}) {
+      const link = mapsLink(g.hall);
+      const hallLabel = g.hall
+        ? `${escapeHtml(g.hall.name || '')}${g.hall.address ? ' · ' + escapeHtml(g.hall.address) : ''}`
+        : (g.ort ? `Halle ${escapeHtml(g.ort)}` : '');
+      const routeHtml = link ? `<a class="route-btn" href="${link}" target="_blank" rel="noopener">🧭 Route</a>` : '';
+      const calHtml = `<button type="button" class="cal-btn" data-idx="${g._idx}">📅 Kalender</button>`;
+      const distanceHtml =
+        g.distanceKm != null
+          ? `<div class="game-distance"><span class="km">${g.distanceKm.toFixed(0)} km</span>Luftlinie</div>`
+          : home
+          ? `<div class="game-distance">Entfernung<br>unbekannt</div>`
+          : '';
+      // Innerhalb der Ausklappung selbst sind alle Hallen-Mitspiele schon
+      // sichtbar - dort keine weitere (verschachtelte) Ausklappung anbieten.
+      const otherCount =
+        allowExpand && g.ort
+          ? (hallIndex.get(g.ort) || []).filter((o) => o._idx !== g._idx && o.datum === g.datum).length
+          : 0;
+      const hintHtml =
+        otherCount > 0
+          ? `<span class="hall-hint">▸ +${otherCount} weitere${otherCount === 1 ? 's' : ''} Spiel${otherCount === 1 ? '' : 'e'} in dieser Halle am selben Tag</span>`
+          : '';
+      return `
+            <div class="game${otherCount > 0 ? ' clickable' : ''}" data-ort="${escapeHtml(g.ort || '')}" data-idx="${g._idx}" data-datum="${escapeHtml(g.datum || '')}">
+              <div class="game-main">
+                <div class="game-time">${escapeHtml(formatWhen(g))}</div>
+                <div class="game-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${staffelHtml(g)}</div>
+                <div class="game-teams">${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
+                ${hallLabel ? `<div class="game-hall"><span>${hallLabel}</span>${routeHtml}${calHtml}</div>` : `<div class="game-hall">${calHtml}</div>`}
+                ${hintHtml}
+              </div>
+              ${distanceHtml}
+            </div>`;
+    }
+
     function toggleHallExpand(card) {
       const existing = card.nextElementSibling;
       if (existing && existing.classList.contains('hall-expand')) {
@@ -861,22 +904,72 @@
         .sort(compareByDateTime);
       if (!others.length) return;
 
-      const itemsHtml = others
-        .map(
-          (g) => `
-            <div class="hall-expand-item">
-              <div class="hei-when">${escapeHtml(g.zeit || formatWhen(g))}</div>
-              <div class="hei-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${staffelHtml(g)}</div>
-              <div>${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
-            </div>`
-        )
-        .join('');
-
       const div = document.createElement('div');
       div.className = 'hall-expand';
-      div.innerHTML = `<div class="hall-expand-title">Weitere offene Spiele in dieser Halle am selben Tag</div>${itemsHtml}`;
+      div.innerHTML =
+        `<div class="hall-expand-title">Weitere offene Spiele in dieser Halle am selben Tag</div>` +
+        others.map((g) => renderGameCard(g, { allowExpand: false })).join('');
       card.insertAdjacentElement('afterend', div);
       card.classList.add('expanded');
+    }
+
+    // Erzeugt eine .ics-Datei für ein Spiel ("Evtl. pfeifen" - der Termin ist
+    // noch unbestätigt) und stößt den Download an, damit sie sich im
+    // Kalender öffnen/importieren lässt. Dauer ist eine grobe Schätzung
+    // (90 Minuten), da die Seite keine echte Spieldauer liefert.
+    function escapeIcsText(s) {
+      return String(s).replace(/\\/g, '\\\\').replace(/,/g, '\\,').replace(/;/g, '\\;').replace(/\n/g, '\\n');
+    }
+
+    function buildIcs(g) {
+      const m = String(g.datum).match(/(\d{2})\.(\d{2})\.(\d{4})/);
+      if (!m) return null;
+      const [, dd, mm, yyyy] = m;
+      const timeM = String(g.zeit || '').match(/^(\d{1,2}):(\d{2})$/);
+      const hh = timeM ? timeM[1].padStart(2, '0') : '00';
+      const min = timeM ? timeM[2] : '00';
+      const startDate = new Date(Number(yyyy), Number(mm) - 1, Number(dd), Number(hh), Number(min));
+      const endDate = new Date(startDate.getTime() + 90 * 60000);
+      const pad = (n) => String(n).padStart(2, '0');
+      const fmt = (d) => `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+
+      const summary = `Evtl. pfeifen: ${g.heim} – ${g.gast}`;
+      const location = [g.hall && g.hall.name, g.hall && g.hall.address].filter(Boolean).join(', ');
+      const descriptionLines = [`${g.liga} ${g.altersklasse} - ${g.staffel}`, g.staffelUrl, mapsLink(g.hall)].filter(Boolean);
+      const uid = `srp-${g.ort || 'x'}-${yyyy}${mm}${dd}${hh}${min}-${g._idx}@schiedsrichterplan`;
+      const dtstamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+
+      return [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//SchiedsrichterPlan//DE',
+        'BEGIN:VEVENT',
+        `UID:${uid}`,
+        `DTSTAMP:${dtstamp}`,
+        `DTSTART:${fmt(startDate)}`,
+        `DTEND:${fmt(endDate)}`,
+        `SUMMARY:${escapeIcsText(summary)}`,
+        location ? `LOCATION:${escapeIcsText(location)}` : null,
+        descriptionLines.length ? `DESCRIPTION:${escapeIcsText(descriptionLines.join('\n'))}` : null,
+        'END:VEVENT',
+        'END:VCALENDAR',
+      ]
+        .filter(Boolean)
+        .join('\r\n');
+    }
+
+    function downloadIcs(g) {
+      const ics = buildIcs(g);
+      if (!ics) return;
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `spiel-${g._idx}.ics`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
     function setView(view) {
@@ -1049,7 +1142,9 @@
       // sichtbaren), damit auch Spiele auffindbar sind, die z.B. durch den
       // Uhrzeit- oder Liga-Filter gerade ausgeblendet sind.
       hallIndex = new Map();
+      gamesByIdx = new Map();
       for (const g of games) {
+        gamesByIdx.set(g._idx, g);
         if (!g.ort) continue;
         if (!hallIndex.has(g.ort)) hallIndex.set(g.ort, []);
         hallIndex.get(g.ort).push(g);
@@ -1155,35 +1250,7 @@
       for (const [day, dayGames] of groups) {
         html += `<div class="day-group"><div class="day-heading">${escapeHtml(day)}</div>`;
         for (const g of dayGames) {
-          const link = mapsLink(g.hall);
-          const hallLabel = g.hall
-            ? `${escapeHtml(g.hall.name || '')}${g.hall.address ? ' · ' + escapeHtml(g.hall.address) : ''}`
-            : (g.ort ? `Halle ${escapeHtml(g.ort)}` : '');
-          const routeHtml = link ? `<a class="route-btn" href="${link}" target="_blank" rel="noopener">🧭 Route</a>` : '';
-          const distanceHtml =
-            g.distanceKm != null
-              ? `<div class="game-distance"><span class="km">${g.distanceKm.toFixed(0)} km</span>Luftlinie</div>`
-              : home
-              ? `<div class="game-distance">Entfernung<br>unbekannt</div>`
-              : '';
-          const otherCount = g.ort
-            ? (hallIndex.get(g.ort) || []).filter((o) => o._idx !== g._idx && o.datum === g.datum).length
-            : 0;
-          const hintHtml =
-            otherCount > 0
-              ? `<span class="hall-hint">▸ +${otherCount} weitere${otherCount === 1 ? 's' : ''} Spiel${otherCount === 1 ? '' : 'e'} in dieser Halle am selben Tag</span>`
-              : '';
-          html += `
-            <div class="game${otherCount > 0 ? ' clickable' : ''}" data-ort="${escapeHtml(g.ort || '')}" data-idx="${g._idx}" data-datum="${escapeHtml(g.datum || '')}">
-              <div class="game-main">
-                <div class="game-time">${escapeHtml(formatWhen(g))}</div>
-                <div class="game-league">${escapeHtml(g.liga)} ${escapeHtml(g.altersklasse)} · ${staffelHtml(g)}</div>
-                <div class="game-teams">${escapeHtml(g.heim)} – ${escapeHtml(g.gast)}</div>
-                ${hallLabel ? `<div class="game-hall"><span>${hallLabel}</span>${routeHtml}</div>` : ''}
-                ${hintHtml}
-              </div>
-              ${distanceHtml}
-            </div>`;
+          html += renderGameCard(g);
         }
         html += '</div>';
       }
@@ -1197,6 +1264,12 @@
       });
 
       els.content.addEventListener('click', (e) => {
+        const calBtn = e.target.closest('.cal-btn');
+        if (calBtn) {
+          const g = gamesByIdx.get(Number(calBtn.dataset.idx));
+          if (g) downloadIcs(g);
+          return;
+        }
         if (e.target.closest('a, button')) return; // Route-Button etc. nicht abfangen
         const card = e.target.closest('.game.clickable');
         if (!card) return;

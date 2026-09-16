@@ -38,9 +38,12 @@ Quelle: https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/regio
    (z.B. wegen Befangenheit) und einer Radius-Suche (eigener Standort +
    Umkreis in km, Luftlinie über die geokodierten Hallenkoordinaten). Alle
    Filter werden lokal im Browser gespeichert. Jedes Spiel verlinkt außerdem
-   auf seine Staffel-Seite bei nuLiga (Tabelle + Spielplan der Liga-Gruppe)
-   sowie auf eine aufklappbare Liste weiterer offener Spiele in derselben
-   Halle.
+   auf seine Staffel-Seite bei nuLiga (Tabelle + Spielplan der Liga-Gruppe),
+   lässt sich per Klick aufklappen, um weitere offene Spiele am selben Tag
+   in derselben Halle zu sehen (als vollständige Karten, inkl. Route- und
+   Kalender-Button), und bietet einen **Kalender-Export** (.ics, Termin
+   „Evtl. pfeifen: Team A – Team B", 90 Minuten Dauer als Schätzung, da die
+   Seite keine echte Spieldauer liefert).
 5. Neben der Listenansicht gibt es eine **Kartenansicht** (Leaflet +
    OpenStreetMap) mit einem Marker pro Halle; jeder Marker zeigt die dort
    noch offenen Spiele. Jedes Spiel (Liste wie Karte) hat außerdem einen
