@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T10:43:41.950Z",
+  "generatedAt": "2026-09-17T15:57:26.874Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3908,
   "openGames": [
@@ -2891,20 +2891,6 @@
       "tag": "Sa",
       "datum": "14.11.2026",
       "zeit": "17:30",
-      "ort": "802138",
-      "liga": "ReL",
-      "altersklasse": "M",
-      "staffel": "Regionsliga M Nord",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489040",
-      "heim": "TSV Holtrop",
-      "gast": "SC Union Emlichheim",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "14.11.2026",
-      "zeit": "17:30",
       "ort": "803105",
       "liga": "ReL",
       "altersklasse": "M",
@@ -2912,6 +2898,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489040",
       "heim": "SV Dalum II",
       "gast": "SV Sparta Werlte",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Sa",
+      "datum": "14.11.2026",
+      "zeit": "17:30",
+      "ort": "802138",
+      "liga": "ReL",
+      "altersklasse": "M",
+      "staffel": "Regionsliga M Nord",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489040",
+      "heim": "TSV Holtrop",
+      "gast": "SC Union Emlichheim",
       "ergebnis": "",
       "schiedsrichter": ""
     },
