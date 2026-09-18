@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T10:19:17.498Z",
+  "generatedAt": "2026-09-18T15:31:35.229Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3909,
   "openGames": [
@@ -1812,20 +1812,6 @@
     {
       "tag": "Sa",
       "datum": "07.11.2026",
-      "zeit": "18:00",
-      "ort": "809146",
-      "liga": "ReK",
-      "altersklasse": "M",
-      "staffel": "Regionsklasse M Ost",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489437",
-      "heim": "HSG Hunte-Aue Löwen III",
-      "gast": "TuS Bramsche III",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "07.11.2026",
       "zeit": "18:15",
       "ort": "809143",
       "liga": "LL",
@@ -1848,6 +1834,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489383",
       "heim": "SV Rot-Weiß Damme",
       "gast": "TuS Bramsche",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Sa",
+      "datum": "07.11.2026",
+      "zeit": "19:00",
+      "ort": "809146",
+      "liga": "ReK",
+      "altersklasse": "M",
+      "staffel": "Regionsklasse M Ost",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489437",
+      "heim": "HSG Hunte-Aue Löwen III",
+      "gast": "TuS Bramsche III",
       "ergebnis": "",
       "schiedsrichter": ""
     },
