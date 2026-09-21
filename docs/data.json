@@ -1,22 +1,8 @@
 {
-  "generatedAt": "2026-09-21T17:31:50.269Z",
+  "generatedAt": "2026-09-21T21:28:56.864Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3772,
   "openGames": [
-    {
-      "tag": "So",
-      "datum": "04.10.2026",
-      "zeit": "13:30",
-      "ort": "802125",
-      "liga": "ROL",
-      "altersklasse": "M",
-      "staffel": "Regionsoberliga M Nord",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489159",
-      "heim": "SV Eintracht Ihlow",
-      "gast": "TV Cloppenburg II",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
     {
       "tag": "Sa",
       "datum": "24.10.2026",
