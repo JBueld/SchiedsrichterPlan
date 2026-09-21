@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-20T20:03:12.046Z",
+  "generatedAt": "2026-09-21T02:32:07.440Z",
   "weeksScanned": 42,
-  "totalGamesSeen": 3911,
+  "totalGamesSeen": 3771,
   "openGames": [
     {
       "tag": "Sa",
@@ -1393,20 +1393,6 @@
       "tag": "So",
       "datum": "01.11.2026",
       "zeit": "17:00",
-      "ort": "808129",
-      "liga": "ReK",
-      "altersklasse": "M",
-      "staffel": "Regionsklasse M Süd",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489729",
-      "heim": "VfL Bad Iburg II",
-      "gast": "SV 1916 Osnabrück",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "01.11.2026",
-      "zeit": "17:00",
       "ort": "808122",
       "liga": "ReK",
       "altersklasse": "M",
@@ -1414,6 +1400,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489729",
       "heim": "SV Concordia Belm-Powe e.V. II",
       "gast": "SV Alemannia Salzbergen",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "So",
+      "datum": "01.11.2026",
+      "zeit": "17:00",
+      "ort": "808129",
+      "liga": "ReK",
+      "altersklasse": "M",
+      "staffel": "Regionsklasse M Süd",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489729",
+      "heim": "VfL Bad Iburg II",
+      "gast": "SV 1916 Osnabrück",
       "ergebnis": "",
       "schiedsrichter": ""
     },
