@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-21T11:33:14.449Z",
+  "generatedAt": "2026-09-21T17:31:50.269Z",
   "weeksScanned": 42,
-  "totalGamesSeen": 3771,
+  "totalGamesSeen": 3772,
   "openGames": [
     {
       "tag": "So",
@@ -2044,6 +2044,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489018",
       "heim": "TV Meppen II",
       "gast": "TSG 07 Burg Gretesch",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "So",
+      "datum": "08.11.2026",
+      "zeit": "13:45",
+      "ort": "802136",
+      "liga": "ReL",
+      "altersklasse": "F",
+      "staffel": "Regionsliga F Nord",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489539",
+      "heim": "TuS Norderney",
+      "gast": "HSG Emden III",
       "ergebnis": "",
       "schiedsrichter": ""
     },
