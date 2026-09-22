@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T02:34:32.880Z",
+  "generatedAt": "2026-09-22T10:40:15.229Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3772,
   "openGames": [
@@ -42,6 +42,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489729",
       "heim": "Eickener SpVg II",
       "gast": "Eickener SpVg III",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Fr",
+      "datum": "30.10.2026",
+      "zeit": "19:15",
+      "ort": "809143",
+      "liga": "ROL",
+      "altersklasse": "WJB",
+      "staffel": "RoL / Rel VR 3",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505355",
+      "heim": "TuS Lemförde",
+      "gast": "GW Mühlen",
       "ergebnis": "",
       "schiedsrichter": ""
     },
