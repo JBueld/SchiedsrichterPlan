@@ -1,22 +1,8 @@
 {
-  "generatedAt": "2026-09-23T20:55:33.119Z",
+  "generatedAt": "2026-09-24T02:23:49.552Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3776,
   "openGames": [
-    {
-      "tag": "So",
-      "datum": "27.09.2026",
-      "zeit": "13:15",
-      "ort": "808149",
-      "liga": "ROL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsoberliga WJC Ost",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505357",
-      "heim": "TV Wellingholzhausen",
-      "gast": "TuS FRISIA Goldenstedt",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
     {
       "tag": "Do",
       "datum": "15.10.2026",
