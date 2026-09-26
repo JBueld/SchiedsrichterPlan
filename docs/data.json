@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-26T10:34:35.385Z",
+  "generatedAt": "2026-09-26T15:27:51.126Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3778,
   "openGames": [
@@ -5957,20 +5957,6 @@
       "tag": "Sa",
       "datum": "28.11.2026",
       "zeit": "19:00",
-      "ort": "806109",
-      "liga": "LL",
-      "altersklasse": "M",
-      "staffel": "Landesliga M",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489848",
-      "heim": "HSG Emden",
-      "gast": "HSG Hunte-Aue Löwen II",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "28.11.2026",
-      "zeit": "19:00",
       "ort": "808121",
       "liga": "LL",
       "altersklasse": "M",
@@ -5978,6 +5964,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489848",
       "heim": "TV Bissendorf-Holte III",
       "gast": "TuS Lemförde",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Sa",
+      "datum": "28.11.2026",
+      "zeit": "19:00",
+      "ort": "806109",
+      "liga": "LL",
+      "altersklasse": "M",
+      "staffel": "Landesliga M",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489848",
+      "heim": "HSG Emden",
+      "gast": "HSG Hunte-Aue Löwen II",
       "ergebnis": "",
       "schiedsrichter": ""
     },
