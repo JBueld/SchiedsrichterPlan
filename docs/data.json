@@ -1,36 +1,8 @@
 {
-  "generatedAt": "2026-09-29T03:27:27.377Z",
+  "generatedAt": "2026-09-29T11:53:20.420Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3431,
   "openGames": [
-    {
-      "tag": "Sa",
-      "datum": "24.10.2026",
-      "zeit": "16:00",
-      "ort": "803159",
-      "liga": "ReL",
-      "altersklasse": "F",
-      "staffel": "Regionsliga F West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489140",
-      "heim": "SV Alemannia Salzbergen",
-      "gast": "SG Neuenhaus/Uelsen IV",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "24.10.2026",
-      "zeit": "18:15",
-      "ort": "803159",
-      "liga": "ReK",
-      "altersklasse": "M",
-      "staffel": "Regionsklasse M Süd",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489729",
-      "heim": "SV Alemannia Salzbergen",
-      "gast": "VfL Bad Iburg II",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
     {
       "tag": "Di",
       "datum": "27.10.2026",
