@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-04T20:43:13.363Z",
+  "generatedAt": "2026-10-05T03:13:16.855Z",
   "weeksScanned": 42,
-  "totalGamesSeen": 3435,
+  "totalGamesSeen": 3342,
   "openGames": [
     {
       "tag": "Di",
@@ -9807,20 +9807,6 @@
       "tag": "Sa",
       "datum": "09.01.2027",
       "zeit": "15:00",
-      "ort": "803119",
-      "liga": "LL",
-      "altersklasse": "M",
-      "staffel": "Landesliga M",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489848",
-      "heim": "HSG Haselünne/Herzlake",
-      "gast": "HSG Grönegau-Melle",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "09.01.2027",
-      "zeit": "15:00",
       "ort": "806109",
       "liga": "LL",
       "altersklasse": "M",
@@ -9828,6 +9814,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489848",
       "heim": "HSG Emden",
       "gast": "TV Dinklage II",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Sa",
+      "datum": "09.01.2027",
+      "zeit": "15:00",
+      "ort": "803119",
+      "liga": "LL",
+      "altersklasse": "M",
+      "staffel": "Landesliga M",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489848",
+      "heim": "HSG Haselünne/Herzlake",
+      "gast": "HSG Grönegau-Melle",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -10101,20 +10101,6 @@
       "tag": "So",
       "datum": "10.01.2027",
       "zeit": "17:00",
-      "ort": "808128",
-      "liga": "LL",
-      "altersklasse": "M",
-      "staffel": "Landesliga M",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489848",
-      "heim": "TuS Bramsche II",
-      "gast": "HSG Hunte-Aue Löwen II",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "10.01.2027",
-      "zeit": "17:00",
       "ort": "808129",
       "liga": "LL",
       "altersklasse": "M",
@@ -10122,6 +10108,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489848",
       "heim": "VfL Bad Iburg",
       "gast": "HSG Osnabrück",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "So",
+      "datum": "10.01.2027",
+      "zeit": "17:00",
+      "ort": "808128",
+      "liga": "LL",
+      "altersklasse": "M",
+      "staffel": "Landesliga M",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489848",
+      "heim": "TuS Bramsche II",
+      "gast": "HSG Hunte-Aue Löwen II",
       "ergebnis": "",
       "schiedsrichter": ""
     },
