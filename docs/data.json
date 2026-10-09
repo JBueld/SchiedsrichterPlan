@@ -1,22 +1,8 @@
 {
-  "generatedAt": "2026-10-09T03:49:30.401Z",
+  "generatedAt": "2026-10-09T12:21:30.667Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3348,
   "openGames": [
-    {
-      "tag": "Sa",
-      "datum": "10.10.2026",
-      "zeit": "19:00",
-      "ort": "808144",
-      "liga": "LL",
-      "altersklasse": "M",
-      "staffel": "Landesliga M",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489848",
-      "heim": "HSG Grönegau-Melle",
-      "gast": "HSG Haselünne/Herzlake",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
     {
       "tag": "So",
       "datum": "25.10.2026",
@@ -70,20 +56,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489951",
       "heim": "HSG Haselünne/Herzlake",
       "gast": "SG Neuenhaus/Uelsen II",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "31.10.2026",
-      "zeit": "12:00",
-      "ort": "803117",
-      "liga": "ROL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsoberliga WJC West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505358",
-      "heim": "TuS Haren II",
-      "gast": "TV Meppen",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -154,20 +126,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489815",
       "heim": "TV Dinklage",
       "gast": "HSG Osnabrück",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "31.10.2026",
-      "zeit": "14:00",
-      "ort": "803178",
-      "liga": "ROL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsoberliga WJC West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505358",
-      "heim": "SG Neuenhaus/Uelsen II",
-      "gast": "HSG Nordhorn e.V. II",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -914,20 +872,6 @@
       "schiedsrichter": ""
     },
     {
-      "tag": "So",
-      "datum": "01.11.2026",
-      "zeit": "17:00",
-      "ort": "803119",
-      "liga": "ROL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsoberliga WJC West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505358",
-      "heim": "HSG Haselünne/Herzlake",
-      "gast": "SV Dalum",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
       "tag": "Fr",
       "datum": "06.11.2026",
       "zeit": "18:00",
@@ -1575,20 +1519,6 @@
       "tag": "Sa",
       "datum": "14.11.2026",
       "zeit": "14:00",
-      "ort": "803117",
-      "liga": "LL",
-      "altersklasse": "MJC",
-      "staffel": "Landesliga MJC",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489517",
-      "heim": "TuS Haren",
-      "gast": "TV Dinklage",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "14.11.2026",
-      "zeit": "14:00",
       "ort": "803169",
       "liga": "LL",
       "altersklasse": "WJB",
@@ -1750,20 +1680,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505359",
       "heim": "TuS BW Lohne II",
       "gast": "SV SW Osterfeine",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "14.11.2026",
-      "zeit": "16:00",
-      "ort": "803117",
-      "liga": "ROL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsoberliga WJC West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505358",
-      "heim": "TuS Haren II",
-      "gast": "HSG Haselünne/Herzlake",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -2414,20 +2330,6 @@
     {
       "tag": "So",
       "datum": "15.11.2026",
-      "zeit": "15:00",
-      "ort": "803105",
-      "liga": "ROL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsoberliga WJC West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505358",
-      "heim": "SV Dalum",
-      "gast": "FC Schüttorf 09 II",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "15.11.2026",
       "zeit": "15:15",
       "ort": "808149",
       "liga": "ROL",
@@ -2590,20 +2492,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505360",
       "heim": "HSG Weener/Bunde",
       "gast": "SV Sigiltra Sögel",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "21.11.2026",
-      "zeit": "11:30",
-      "ort": "803104",
-      "liga": "ROL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsoberliga WJC West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505358",
-      "heim": "VfL Emslage",
-      "gast": "SV Dalum",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -3248,20 +3136,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489418",
       "heim": "TV Bissendorf-Holte",
       "gast": "SV Eversburg",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "22.11.2026",
-      "zeit": "09:00",
-      "ort": "803119",
-      "liga": "ROL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsoberliga WJC West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505358",
-      "heim": "HSG Haselünne/Herzlake",
-      "gast": "TV Meppen",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -4032,20 +3906,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489018",
       "heim": "FC Schüttorf 09",
       "gast": "SV Holdorf",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "28.11.2026",
-      "zeit": "13:00",
-      "ort": "803105",
-      "liga": "ROL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsoberliga WJC West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505358",
-      "heim": "SV Dalum",
-      "gast": "SG Neuenhaus/Uelsen II",
       "ergebnis": "",
       "schiedsrichter": ""
     },
