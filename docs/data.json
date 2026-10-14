@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-14T02:52:48.519Z",
+  "generatedAt": "2026-10-14T10:56:33.090Z",
   "weeksScanned": 42,
-  "totalGamesSeen": 3311,
+  "totalGamesSeen": 3312,
   "openGames": [
     {
       "tag": "Fr",
@@ -1071,20 +1071,6 @@
       "tag": "So",
       "datum": "08.11.2026",
       "zeit": "16:00",
-      "ort": "808132",
-      "liga": "ROL",
-      "altersklasse": "WJB",
-      "staffel": "RoL / Rel VR 4",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505353",
-      "heim": "TV Georgsmarienhütte",
-      "gast": "HSG Osnabrück II",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "08.11.2026",
-      "zeit": "16:00",
       "ort": "808107",
       "liga": "ROL",
       "altersklasse": "WJB",
@@ -1092,6 +1078,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505353",
       "heim": "SSC Dodesheide",
       "gast": "SG Teuto Handball",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "So",
+      "datum": "08.11.2026",
+      "zeit": "16:00",
+      "ort": "808132",
+      "liga": "ROL",
+      "altersklasse": "WJB",
+      "staffel": "RoL / Rel VR 4",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505353",
+      "heim": "TV Georgsmarienhütte",
+      "gast": "HSG Osnabrück II",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -2758,20 +2758,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505361",
       "heim": "TSV Wallenhorst",
       "gast": "SSC Dodesheide",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "22.11.2026",
-      "zeit": "14:00",
-      "ort": "809118",
-      "liga": "LL",
-      "altersklasse": "WJC",
-      "staffel": "Landesliga WJC",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489689",
-      "heim": "SV Holdorf",
-      "gast": "BV Garrel II",
       "ergebnis": "",
       "schiedsrichter": ""
     },
