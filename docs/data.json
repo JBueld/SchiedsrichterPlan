@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-14T10:56:33.090Z",
+  "generatedAt": "2026-10-14T16:15:28.636Z",
   "weeksScanned": 42,
-  "totalGamesSeen": 3312,
+  "totalGamesSeen": 3313,
   "openGames": [
     {
       "tag": "Fr",
@@ -532,20 +532,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489001",
       "heim": "TSG 07 Burg Gretesch",
       "gast": "SFN Vechta",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "01.11.2026",
-      "zeit": "15:30",
-      "ort": "802120",
-      "liga": "ReL",
-      "altersklasse": "F",
-      "staffel": "Regionsliga F Nord",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489539",
-      "heim": "MSG SV Hage/TuRa Marienhafe 2",
-      "gast": "SV Concordia Ihrhove II",
       "ergebnis": "",
       "schiedsrichter": ""
     },
