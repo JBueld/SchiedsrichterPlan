@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-15T10:37:48.761Z",
+  "generatedAt": "2026-10-15T16:02:58.502Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3313,
   "openGames": [
@@ -2296,6 +2296,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489199",
       "heim": "SG Neuenhaus/Uelsen II",
       "gast": "SG Lingen-Lohne",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Sa",
+      "datum": "21.11.2026",
+      "zeit": "17:00",
+      "ort": "806135",
+      "liga": "ROL",
+      "altersklasse": "M",
+      "staffel": "Regionsoberliga M Nord",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489159",
+      "heim": "TuS Holthusen",
+      "gast": "HSG Emden II",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -8505,13 +8519,13 @@
       "tag": "So",
       "datum": "24.01.2027",
       "zeit": "17:00",
-      "ort": "808129",
+      "ort": "808121",
       "liga": "LL",
       "altersklasse": "M",
       "staffel": "Landesliga M",
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489848",
-      "heim": "VfL Bad Iburg",
-      "gast": "TV Bissendorf-Holte III",
+      "heim": "TV Bissendorf-Holte III",
+      "gast": "VfL Bad Iburg",
       "ergebnis": "",
       "schiedsrichter": ""
     },
