@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-17T02:17:46.463Z",
+  "generatedAt": "2026-10-17T09:57:11.780Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3313,
   "openGames": [
@@ -1015,20 +1015,6 @@
       "tag": "So",
       "datum": "08.11.2026",
       "zeit": "16:00",
-      "ort": "808107",
-      "liga": "ROL",
-      "altersklasse": "WJB",
-      "staffel": "RoL / Rel VR 4",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505353",
-      "heim": "SSC Dodesheide",
-      "gast": "SG Teuto Handball",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "08.11.2026",
-      "zeit": "16:00",
       "ort": "808132",
       "liga": "ROL",
       "altersklasse": "WJB",
@@ -1036,6 +1022,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505353",
       "heim": "TV Georgsmarienhütte",
       "gast": "HSG Osnabrück II",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "So",
+      "datum": "08.11.2026",
+      "zeit": "16:00",
+      "ort": "808107",
+      "liga": "ROL",
+      "altersklasse": "WJB",
+      "staffel": "RoL / Rel VR 4",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505353",
+      "heim": "SSC Dodesheide",
+      "gast": "SG Teuto Handball",
       "ergebnis": "",
       "schiedsrichter": ""
     },
