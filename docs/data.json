@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-20T02:46:13.318Z",
+  "generatedAt": "2026-10-20T10:44:15.825Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3302,
   "openGames": [
@@ -1896,20 +1896,6 @@
     {
       "tag": "So",
       "datum": "22.11.2026",
-      "zeit": "13:40",
-      "ort": "808151",
-      "liga": "ReL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsliga WJC Süd",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505361",
-      "heim": "TSV Wallenhorst",
-      "gast": "SSC Dodesheide",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "22.11.2026",
       "zeit": "14:00",
       "ort": "803119",
       "liga": "ROL",
@@ -3794,20 +3780,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505360",
       "heim": "SV Sigiltra Sögel",
       "gast": "SV Cappeln II",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "12.12.2026",
-      "zeit": "11:00",
-      "ort": "803140",
-      "liga": "ReL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsliga WJC West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505362",
-      "heim": "SV Vorwärts Nordhorn II",
-      "gast": "ASC GW Itterbeck",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -11606,6 +11578,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489689",
       "heim": "SG Neuenhaus/Uelsen",
       "gast": "FC Schüttorf 09",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Mi",
+      "datum": "24.02.2027",
+      "zeit": "17:30",
+      "ort": "809138",
+      "liga": "ReL",
+      "altersklasse": "WJC",
+      "staffel": "Regionsliga WJC Ost",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505359",
+      "heim": "SV Falke Steinfeld II",
+      "gast": "GW Mühlen",
       "ergebnis": "",
       "schiedsrichter": ""
     },
