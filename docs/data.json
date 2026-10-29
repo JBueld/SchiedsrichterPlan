@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T03:40:39.279Z",
+  "generatedAt": "2026-10-29T12:02:52.375Z",
   "weeksScanned": 42,
   "totalGamesSeen": 3263,
   "openGames": [
@@ -581,20 +581,6 @@
       "tag": "So",
       "datum": "15.11.2026",
       "zeit": "15:00",
-      "ort": "803159",
-      "liga": "LL",
-      "altersklasse": "WJA",
-      "staffel": "Landesliga WJA",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489631",
-      "heim": "SV Alemannia Salzbergen",
-      "gast": "TV Georgsmarienhütte",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "15.11.2026",
-      "zeit": "15:00",
       "ort": "808135",
       "liga": "LL",
       "altersklasse": "WJA",
@@ -602,6 +588,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489631",
       "heim": "SG Teuto Handball",
       "gast": "TV Bissendorf-Holte",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "So",
+      "datum": "15.11.2026",
+      "zeit": "15:00",
+      "ort": "803159",
+      "liga": "LL",
+      "altersklasse": "WJA",
+      "staffel": "Landesliga WJA",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489631",
+      "heim": "SV Alemannia Salzbergen",
+      "gast": "TV Georgsmarienhütte",
       "ergebnis": "",
       "schiedsrichter": ""
     },
