@@ -1,22 +1,8 @@
 {
-  "generatedAt": "2026-11-04T13:34:13.137Z",
+  "generatedAt": "2026-11-04T23:03:49.511Z",
   "weeksScanned": 42,
   "totalGamesSeen": 2944,
   "openGames": [
-    {
-      "tag": "Sa",
-      "datum": "07.11.2026",
-      "zeit": "17:00",
-      "ort": "806109",
-      "liga": "LL",
-      "altersklasse": "MJA",
-      "staffel": "Landesliga MJA VR  West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489620",
-      "heim": "HSG Emden",
-      "gast": "FC Schüttorf 09",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
     {
       "tag": "Sa",
       "datum": "14.11.2026",
@@ -10171,20 +10157,6 @@
       "tag": "So",
       "datum": "21.02.2027",
       "zeit": "17:00",
-      "ort": "808144",
-      "liga": "ReL",
-      "altersklasse": "F",
-      "staffel": "Regionsliga F Ost",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489363",
-      "heim": "HSG Grönegau-Melle",
-      "gast": "HSG Hunte-Aue Löwen III",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "21.02.2027",
-      "zeit": "17:00",
       "ort": "809105",
       "liga": "ReL",
       "altersklasse": "F",
@@ -10192,6 +10164,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489363",
       "heim": "SV Rot-Weiß Damme",
       "gast": "SV SW Osterfeine II",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "So",
+      "datum": "21.02.2027",
+      "zeit": "17:00",
+      "ort": "808144",
+      "liga": "ReL",
+      "altersklasse": "F",
+      "staffel": "Regionsliga F Ost",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489363",
+      "heim": "HSG Grönegau-Melle",
+      "gast": "HSG Hunte-Aue Löwen III",
       "ergebnis": "",
       "schiedsrichter": ""
     },
