@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T13:48:51.039Z",
+  "generatedAt": "2026-11-05T23:07:12.008Z",
   "weeksScanned": 42,
   "totalGamesSeen": 2944,
   "openGames": [
@@ -42,20 +42,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489437",
       "heim": "TV Meppen II",
       "gast": "BV Essen e.V. v. 1919",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "21.11.2026",
-      "zeit": "11:30",
-      "ort": "803104",
-      "liga": "ROL",
-      "altersklasse": "WJC",
-      "staffel": "Regionsoberliga WJC West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505358",
-      "heim": "VfL Emslage",
-      "gast": "SV Dalum",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -1407,20 +1393,6 @@
       "tag": "Sa",
       "datum": "28.11.2026",
       "zeit": "19:30",
-      "ort": "808158",
-      "liga": "ROL",
-      "altersklasse": "M",
-      "staffel": "Regionsoberliga M Süd",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
-      "heim": "HSG Osnabrück II",
-      "gast": "SV Quitt Ankum",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "28.11.2026",
-      "zeit": "19:30",
       "ort": "808177",
       "liga": "ROL",
       "altersklasse": "M",
@@ -1428,6 +1400,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
       "heim": "THC Westerkappeln",
       "gast": "TV Georgsmarienhütte II",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Sa",
+      "datum": "28.11.2026",
+      "zeit": "19:30",
+      "ort": "808158",
+      "liga": "ROL",
+      "altersklasse": "M",
+      "staffel": "Regionsoberliga M Süd",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
+      "heim": "HSG Osnabrück II",
+      "gast": "SV Quitt Ankum",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -3406,6 +3392,20 @@
       "schiedsrichter": ""
     },
     {
+      "tag": "Mo",
+      "datum": "14.12.2026",
+      "zeit": "20:00",
+      "ort": "803105",
+      "liga": "ReL",
+      "altersklasse": "F",
+      "staffel": "Regionsliga F West",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489140",
+      "heim": "SV Dalum II",
+      "gast": "FC Schüttorf 09 III",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
       "tag": "Sa",
       "datum": "19.12.2026",
       "zeit": "10:00",
@@ -3689,20 +3689,6 @@
       "tag": "Sa",
       "datum": "19.12.2026",
       "zeit": "16:00",
-      "ort": "809118",
-      "liga": "LL",
-      "altersklasse": "WJC",
-      "staffel": "Landesliga WJC",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489689",
-      "heim": "SV Holdorf",
-      "gast": "TSG 07 Burg Gretesch",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "19.12.2026",
-      "zeit": "16:00",
       "ort": "803157",
       "liga": "LL",
       "altersklasse": "WJC",
@@ -3710,6 +3696,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489689",
       "heim": "SG Neuenhaus/Uelsen",
       "gast": "SV Vorwärts Nordhorn",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Sa",
+      "datum": "19.12.2026",
+      "zeit": "16:00",
+      "ort": "809118",
+      "liga": "LL",
+      "altersklasse": "WJC",
+      "staffel": "Landesliga WJC",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489689",
+      "heim": "SV Holdorf",
+      "gast": "TSG 07 Burg Gretesch",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -3738,20 +3738,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489418",
       "heim": "HSG Haselünne/Herzlake",
       "gast": "HSG Osnabrück III",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "19.12.2026",
-      "zeit": "16:30",
-      "ort": "803105",
-      "liga": "ReL",
-      "altersklasse": "F",
-      "staffel": "Regionsliga F West",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489140",
-      "heim": "SV Dalum II",
-      "gast": "FC Schüttorf 09 III",
       "ergebnis": "",
       "schiedsrichter": ""
     },
