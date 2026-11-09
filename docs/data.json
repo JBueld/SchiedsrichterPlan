@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-09T03:51:11.665Z",
+  "generatedAt": "2026-11-09T14:49:31.547Z",
   "weeksScanned": 42,
   "totalGamesSeen": 2712,
   "openGames": [
@@ -42,20 +42,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489437",
       "heim": "TV Meppen II",
       "gast": "BV Essen e.V. v. 1919",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "21.11.2026",
-      "zeit": "12:00",
-      "ort": "806123",
-      "liga": "ReL",
-      "altersklasse": "MJC",
-      "staffel": "ROL/ReL MJC VR 1",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505337",
-      "heim": "JSG Warsingsfehn/ Heisfelde",
-      "gast": "SG Aurich-Marienhafe II",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -749,20 +735,6 @@
       "tag": "So",
       "datum": "22.11.2026",
       "zeit": "16:30",
-      "ort": "809149",
-      "liga": "ReL",
-      "altersklasse": "MJC",
-      "staffel": "ROL/ReL MJC VR 1",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505337",
-      "heim": "STV Barßel",
-      "gast": "JMSG Emden/Pewsum/Groß-Midlum",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "22.11.2026",
-      "zeit": "16:30",
       "ort": "808132",
       "liga": "ROL",
       "altersklasse": "WJC",
@@ -1420,20 +1392,6 @@
     {
       "tag": "So",
       "datum": "29.11.2026",
-      "zeit": "10:30",
-      "ort": "802102",
-      "liga": "ReL",
-      "altersklasse": "MJC",
-      "staffel": "ROL/ReL MJC VR 1",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505337",
-      "heim": "SG Aurich-Marienhafe II",
-      "gast": "JMSG Emden/Pewsum/Groß-Midlum",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "29.11.2026",
       "zeit": "11:00",
       "ort": "809148",
       "liga": "ReL",
@@ -1561,20 +1519,6 @@
       "tag": "So",
       "datum": "29.11.2026",
       "zeit": "13:30",
-      "ort": "803109",
-      "liga": "ReL",
-      "altersklasse": "MJC",
-      "staffel": "ROL/ReL MJC VR 2",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505336",
-      "heim": "SC Union Emlichheim",
-      "gast": "HSG Nordhorn e.V. III",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "29.11.2026",
-      "zeit": "13:30",
       "ort": "808105",
       "liga": "ROL",
       "altersklasse": "F",
@@ -1666,20 +1610,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505355",
       "heim": "SV Falke Steinfeld II",
       "gast": "SV Quitt Ankum",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "29.11.2026",
-      "zeit": "14:40",
-      "ort": "803153",
-      "liga": "ReL",
-      "altersklasse": "MJC",
-      "staffel": "ROL/ReL MJC VR 2",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505336",
-      "heim": "SV Sigiltra Sögel",
-      "gast": "SV Grenzland Twist",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -1778,20 +1708,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489689",
       "heim": "BV Garrel II",
       "gast": "TSG 07 Burg Gretesch",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "So",
-      "datum": "29.11.2026",
-      "zeit": "16:30",
-      "ort": "809149",
-      "liga": "ReL",
-      "altersklasse": "MJC",
-      "staffel": "ROL/ReL MJC VR 1",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505337",
-      "heim": "STV Barßel",
-      "gast": "JSG Warsingsfehn/ Heisfelde",
       "ergebnis": "",
       "schiedsrichter": ""
     },
@@ -20547,12 +20463,6 @@
       "lat": 53.1392288,
       "lon": 7.6312935
     },
-    "806123": {
-      "name": "Leer, SH Ubbo-Emmius-Gymnasium",
-      "address": "Schillerstraße, 26789 26789 Leer",
-      "lat": 53.2328789,
-      "lon": 7.4507649
-    },
     "806128": {
       "name": "Rhauderfehn, SH 2 SZ",
       "address": "Werftstraße hinter Halle Nr. 806126, 26817 Rhauderfehn",
@@ -20834,12 +20744,6 @@
       "address": "Walsener Str., 49406 Barnstorf",
       "lat": 52.7125112,
       "lon": 8.5002594
-    },
-    "809149": {
-      "name": "Schulzentrum Barßel",
-      "address": "Westmarkstr. 3, 26676 Barßel",
-      "lat": 53.1664771,
-      "lon": 7.7384016
     }
   }
 }
