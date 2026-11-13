@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-13T13:43:44.415Z",
+  "generatedAt": "2026-11-13T23:06:03.714Z",
   "weeksScanned": 42,
-  "totalGamesSeen": 2671,
+  "totalGamesSeen": 2702,
   "openGames": [
     {
       "tag": "Mi",
@@ -1414,20 +1414,6 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505358",
       "heim": "SG Neuenhaus/Uelsen II",
       "gast": "TuS Haren II",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "12.12.2026",
-      "zeit": "16:00",
-      "ort": "806105",
-      "liga": "ReL",
-      "altersklasse": "F",
-      "staffel": "Regionsliga F Nord",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489539",
-      "heim": "SV Concordia Ihrhove II",
-      "gast": "HSG 08 Middels/Plaggenburg",
       "ergebnis": "",
       "schiedsrichter": ""
     },
