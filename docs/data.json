@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-14T12:48:16.752Z",
+  "generatedAt": "2026-11-14T21:52:52.856Z",
   "weeksScanned": 42,
   "totalGamesSeen": 2702,
   "openGames": [
@@ -217,20 +217,6 @@
       "tag": "Sa",
       "datum": "28.11.2026",
       "zeit": "15:30",
-      "ort": "808122",
-      "liga": "ROL",
-      "altersklasse": "M",
-      "staffel": "Regionsoberliga M Süd",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
-      "heim": "SV Concordia Belm-Powe e.V.",
-      "gast": "FC Schüttorf 09 II",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "28.11.2026",
-      "zeit": "15:30",
       "ort": "803138",
       "liga": "ROL",
       "altersklasse": "M",
@@ -238,6 +224,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
       "heim": "HSG Nordhorn e.V. III",
       "gast": "SV Rot-Weiß Damme",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Sa",
+      "datum": "28.11.2026",
+      "zeit": "15:30",
+      "ort": "808122",
+      "liga": "ROL",
+      "altersklasse": "M",
+      "staffel": "Regionsoberliga M Süd",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
+      "heim": "SV Concordia Belm-Powe e.V.",
+      "gast": "FC Schüttorf 09 II",
       "ergebnis": "",
       "schiedsrichter": ""
     },
