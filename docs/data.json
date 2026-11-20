@@ -1,22 +1,8 @@
 {
-  "generatedAt": "2026-11-20T14:43:37.686Z",
+  "generatedAt": "2026-11-20T23:34:10.007Z",
   "weeksScanned": 42,
   "totalGamesSeen": 2477,
   "openGames": [
-    {
-      "tag": "Mi",
-      "datum": "25.11.2026",
-      "zeit": "18:30",
-      "ort": "809130",
-      "liga": "ROL",
-      "altersklasse": "WJB",
-      "staffel": "RoL / Rel VR 3",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=505355",
-      "heim": "GW Mühlen",
-      "gast": "TuS BW Lohne",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
     {
       "tag": "Sa",
       "datum": "28.11.2026",
@@ -413,20 +399,6 @@
       "tag": "Sa",
       "datum": "28.11.2026",
       "zeit": "19:30",
-      "ort": "808177",
-      "liga": "ROL",
-      "altersklasse": "M",
-      "staffel": "Regionsoberliga M Süd",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
-      "heim": "THC Westerkappeln",
-      "gast": "TV Georgsmarienhütte II",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "28.11.2026",
-      "zeit": "19:30",
       "ort": "808158",
       "liga": "ROL",
       "altersklasse": "M",
@@ -434,6 +406,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
       "heim": "HSG Osnabrück II",
       "gast": "SV Quitt Ankum",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Sa",
+      "datum": "28.11.2026",
+      "zeit": "19:30",
+      "ort": "808177",
+      "liga": "ROL",
+      "altersklasse": "M",
+      "staffel": "Regionsoberliga M Süd",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
+      "heim": "THC Westerkappeln",
+      "gast": "TV Georgsmarienhütte II",
       "ergebnis": "",
       "schiedsrichter": ""
     },
