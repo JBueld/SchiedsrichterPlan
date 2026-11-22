@@ -1,8 +1,22 @@
 {
-  "generatedAt": "2026-11-21T22:40:53.313Z",
+  "generatedAt": "2026-11-22T04:16:06.074Z",
   "weeksScanned": 42,
   "totalGamesSeen": 2477,
   "openGames": [
+    {
+      "tag": "Mo",
+      "datum": "23.11.2026",
+      "zeit": "19:30",
+      "ort": "809110",
+      "liga": "LL",
+      "altersklasse": "WJB",
+      "staffel": "Landesliga WJB VR Ost",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489815",
+      "heim": "SV Höltinghausen II",
+      "gast": "TV 01 Bohmte",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
     {
       "tag": "Sa",
       "datum": "28.11.2026",
@@ -189,20 +203,6 @@
       "tag": "Sa",
       "datum": "28.11.2026",
       "zeit": "15:30",
-      "ort": "803138",
-      "liga": "ROL",
-      "altersklasse": "M",
-      "staffel": "Regionsoberliga M Süd",
-      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
-      "heim": "HSG Nordhorn e.V. III",
-      "gast": "SV Rot-Weiß Damme",
-      "ergebnis": "",
-      "schiedsrichter": ""
-    },
-    {
-      "tag": "Sa",
-      "datum": "28.11.2026",
-      "zeit": "15:30",
       "ort": "808122",
       "liga": "ROL",
       "altersklasse": "M",
@@ -210,6 +210,20 @@
       "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
       "heim": "SV Concordia Belm-Powe e.V.",
       "gast": "FC Schüttorf 09 II",
+      "ergebnis": "",
+      "schiedsrichter": ""
+    },
+    {
+      "tag": "Sa",
+      "datum": "28.11.2026",
+      "zeit": "15:30",
+      "ort": "803138",
+      "liga": "ROL",
+      "altersklasse": "M",
+      "staffel": "Regionsoberliga M Süd",
+      "staffelUrl": "https://hvnb-handball.liga.nu/cgi-bin/WebObjects/nuLigaHBDE.woa/wa/groupPage?championship=HRWN+26%2F27&group=489696",
+      "heim": "HSG Nordhorn e.V. III",
+      "gast": "SV Rot-Weiß Damme",
       "ergebnis": "",
       "schiedsrichter": ""
     },
